@@ -13,7 +13,3 @@ All Contents
     customizing
     settings
     contributing
-    *
-
-
-
