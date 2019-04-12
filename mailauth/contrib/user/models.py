@@ -8,9 +8,7 @@ class EmailUserManager(BaseUserManager):
     use_in_migrations = True
 
     def _create_user(self, email, **extra_fields):
-        """
-        Create and save a user with the given username, email, and password.
-        """
+        """Create and save a user with the given email."""
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.save(using=self._db)

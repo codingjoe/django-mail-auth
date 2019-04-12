@@ -16,8 +16,9 @@ __all__ = (
 
 class LoginView(DjangoLoginView):
     """
-    Sends a login code to the user.
-    It doesn't authenticate a user but it is the entry point for the login process (login url).
+    Send a login code to the user.
+
+    It doesn't authenticate a user but it is the entry point for the login process (login URL).
     """
 
     form_class = forms.EmailLoginForm

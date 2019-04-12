@@ -23,6 +23,7 @@ class BaseLoginForm(forms.Form):
 
         Returns:
             str: User login URL including the access token.
+
         """
         protocol = 'https' if request.is_secure() else 'http'
         current_site = get_current_site(request)
@@ -74,7 +75,9 @@ class BaseLoginForm(forms.Form):
 
     def save(self):
         """
-        Method will be called from the view, if the form is valid.
+        Send login URL to users.
+
+        Called from the login view, if the form is valid.
 
         This method must be implemented by subclasses. This method
         should trigger the login url to be sent to the user.
@@ -84,6 +87,7 @@ class BaseLoginForm(forms.Form):
 
 class EmailLoginForm(BaseLoginForm):
     """Login form that contains only the Users email field."""
+
     subject_template_name = 'registration/login_subject.txt'
     email_template_name = 'registration/login_email.txt'
     html_email_template_name = 'registration/login_email.html'

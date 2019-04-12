@@ -14,7 +14,7 @@ class FrozenUserSigner(signing.UserSigner):
 
 @pytest.fixture()
 def user(db):
-    """A user instance."""
+    """Return a user instance."""
     return get_user_model().objects.create_user(
         pk=1337,
         email='spiderman@avengers.com',
@@ -24,7 +24,7 @@ def user(db):
 
 @pytest.fixture()
 def admin_user(db):
-    """A user instance."""
+    """Return a user instance."""
     return get_user_model().objects.create_user(
         pk=1337,
         email='spiderman@avengers.com',
@@ -35,11 +35,11 @@ def admin_user(db):
 
 @pytest.fixture()
 def signature():
-    """A signature matching the user fixture."""
+    """Return a signature matching the user fixture."""
     return 'LZ/173QUS/1Hjptg/fTLJcaon_7zMDyFTIFtlDqbdSt4'
 
 
 @pytest.fixture()
 def signer():
-    """A forzen version of the UserSigner."""
+    """Return a forzen version of the UserSigner."""
     return FrozenUserSigner(sep='/')
