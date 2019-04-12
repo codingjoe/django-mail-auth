@@ -1,0 +1,20 @@
+{% extends "admin/login.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div id="content-main">
+<p>
+{% blocktrans trimmed %}
+    We sent you an email with instructions to log into your account.
+{% endblocktrans %}
+</p>
+<p>
+{% blocktrans trimmed %}
+    Should you not receive an email soon, you can request a new login email below.
+{% endblocktrans %}
+</p>
+<div class="submit-row">
+    <input type="button" onclick="window.history.back();" value="{% trans 'Resend login email' %}">
+</div>
+</div>
+{% endblock %}

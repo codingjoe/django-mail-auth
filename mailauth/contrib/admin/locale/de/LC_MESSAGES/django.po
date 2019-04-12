@@ -1,0 +1,70 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Johannes Hoppe <info@johanneshoppe.com>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-12 18:14+0200\n"
+"PO-Revision-Date: 2019-04-12 18:15+0200\n"
+"Last-Translator: Johannes Hoppe <info@johanneshoppe.com>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.2.1\n"
+
+#: templates/mailauth_admin/login.html:10
+msgid "Please correct the error below."
+msgstr "Bitte korrigieren Sie den untenstehenden Fehler."
+
+#: templates/mailauth_admin/login.html:10
+msgid "Please correct the errors below."
+msgstr "Bitte korrigieren Sie die untenstehenden Fehler."
+
+#: templates/mailauth_admin/login.html:26
+#, python-format
+msgid ""
+"You are authenticated as %(username)s, but are not authorized to access this "
+"page. Would you like to login to a different account?"
+msgstr ""
+"Sie sind als %(username)s authentifiziert, aber nicht berechtigt, auf diese "
+"Seite zuzugreifen. Möchten Sie sich auf einem anderen Konto anmelden?"
+
+#: templates/mailauth_admin/login.html:34
+msgid ""
+"Enter your email address below, and we'll email you a link and instructions "
+"to log into your account."
+msgstr ""
+"Geben Sie unten Ihre E-Mail-Adresse ein, und wir schicken Ihnen einen Link "
+"und Anweisungen, um sich in Ihr Konto einzuloggen."
+
+#: templates/mailauth_admin/login.html:46
+msgid "Send login email"
+msgstr "Sende Login E-Mail"
+
+#: templates/registration/login_requested.html:7
+msgid "We sent you an email with instructions to log into your account."
+msgstr ""
+"Wir haben Ihnen eine E-Mail mit Anweisungen geschickt, um sich in Ihr Konto "
+"einzuloggen."
+
+#: templates/registration/login_requested.html:12
+msgid ""
+"Should you not receive an email soon, you can request a new login email "
+"below."
+msgstr ""
+"Sollten Sie nicht bald eine E-Mail erhalten, können Sie unten eine neue "
+"Login-E-Mail anfordern."
+
+#: templates/registration/login_requested.html:17
+msgid "Resend login email"
+msgstr "Login E-Mail erneut senden"
+
+#: views.py:16
+msgid "Log in"
+msgstr "Anmelden"

@@ -1,0 +1,11 @@
+{% load i18n %}{% autoescape off %}
+{% blocktrans %}You're receiving this email because you requested a login link for your user account at {{ site_name }}.{% endblocktrans %}
+
+{% trans "Please go to the following page to log in:" %}
+{{ login_url }}
+
+{% trans "Thanks for using our site!" %}
+
+{% blocktrans %}The {{ site_name }} team{% endblocktrans %}
+
+{% endautoescape %}

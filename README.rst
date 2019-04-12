@@ -1,0 +1,91 @@
+================
+Django Mail Auth
+================
+
+|version| |ci| |coverage| |license|
+
+.. figure:: sample.png
+    :width: 425
+    :alt: screenshot from a login form
+
+Django Mail Auth is a lightweight authentication backend for Django,
+that does not require users to remember passwords.
+
+Django Mail Auth features:
+
+- custom user model support
+- drop in Django admin support
+- drop in Django User replacement
+- extendable SMS support
+
+This project was originally inspired by `Is it time for password-less login?`__ by `Ben Brown`_.
+
+__ http://notes.xoxco.com/post/27999787765/is-it-time-for-password-less-login
+.. _`Ben Brown`: http://twitter.com/benbrown
+
+Installation
+------------
+
+Run this command to install ``django-mail-auth``::
+
+    pip install django-mail-auth
+
+
+Setup
+-----
+
+First add `mailauth` to you installed apps::
+
+    INSTALLED_APPS = [
+        # Django's builtin apps…
+
+        'mailauth',
+        'mailauth.contrib.admin',  # optional
+        'mailauth.contrib.auth',  # optional
+
+        # other apps…
+    ]
+
+`mailauth.contrib.admin` is optional and will replace the admin's login
+with token based authentication too.
+
+`mailauth.contrib.auth` is optional and provides a new Django User model.
+The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting::
+
+    AUTH_USER_MODEL = 'mailauth.EmailUser'
+
+Next you will need to add the new authentication backend::
+
+        AUTHENTICATION_BACKENDS = (
+        # default, but now optional
+        # This should be removed if
+        'django.contrib.auth.backends.ModelBackend',
+
+        # The new access token based authentication backend
+        'mailauth.backends.MailAuthBackend',
+    )
+
+Django's `ModelBackend` is only only needed, if you still want to support
+password based authentication. If you don't, simply remove it from the list.
+
+Last but not least, go to your URL root config `urls.py` and add the following::
+
+    from django.urls import path
+
+
+    urlpatterns = [
+        path('accounts/', include('mailauth.urls')),
+    ]
+
+That's it!
+
+.. note:: Don't forget to setup you Email backend!
+
+.. |version| image:: https://img.shields.io/pypi/v/django-mail-auth.svg
+   :target: https://pypi.python.org/pypi/django-mail-auth/
+.. |ci| image:: https://travis-ci.com/codingjoe/django-mail-auth.svg?branch=master
+   :target: https://travis-ci.com/codingjoe/django-mail-auth
+.. |coverage| image:: https://codecov.io/gh/codingjoe/django-mail-auth/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/codingjoe/django-mail-auth
+.. |license| image:: https://img.shields.io/badge/license-APL2-blue.svg
+   :target: LICENSE

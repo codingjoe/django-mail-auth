@@ -1,0 +1,51 @@
+{% extends "admin/login.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "mailauth_admin/css/login.css" %}">
+{% endblock %}
+
+{% block content %}
+{% if form.errors and not form.non_field_errors %}
+<p class="errornote">
+{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
+
+<div id="content-main">
+
+{% if user.is_authenticated %}
+<p class="errornote">
+{% blocktrans trimmed %}
+    You are authenticated as {{ username }}, but are not authorized to
+    access this page. Would you like to login to a different account?
+{% endblocktrans %}
+</p>
+{% endif %}
+
+<p>
+{% blocktrans trimmed %}
+    Enter your email address below, and we'll email you a link and instructions to log into your account.
+{% endblocktrans %}
+</p>
+
+<form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+  <div class="form-row">
+    {{ form.email.errors }}
+    {{ form.email.label_tag }} {{ form.email }}
+    <input type="hidden" name="next" value="{{ next }}">
+  </div>
+  <div class="submit-row">
+    <label>&nbsp;</label><input type="submit" value="{% trans 'Send login email' %}">
+  </div>
+</form>
+
+</div>
+{% endblock %}
