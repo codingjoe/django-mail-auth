@@ -52,7 +52,7 @@ with token based authentication too.
 `mailauth.contrib.auth` is optional and provides a new Django User model.
 The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting::
 
-    AUTH_USER_MODEL = 'mailauth.EmailUser'
+    AUTH_USER_MODEL = 'mailauth_user.EmailUser'
 
 Next you will need to add the new authentication backend::
 
