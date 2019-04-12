@@ -20,7 +20,10 @@ class TestUserSigner:
         assert user == signer.unsign(signature)
 
     def test_unsign__no_user(self, db, signer, signature):
-        with pytest.raises(signing.UserDoesNotExist, match="User with pk=1337 does not exist"):
+        with pytest.raises(
+            signing.UserDoesNotExist,
+            match="User with pk=1337 does not exist"
+        ):
             signer.unsign(signature)
 
     def test_unsign__last_login(self, db, signer, signature):
@@ -30,7 +33,10 @@ class TestUserSigner:
             # later date, that does not match the signature
             last_login=timezone.datetime(2012, 7, 3, tzinfo=timezone.utc),
         )
-        with pytest.raises(SignatureExpired, match="The access token for <EmailUser: spiderman@avengers.com> seems used"):
+        with pytest.raises(
+            SignatureExpired,
+            match="The access token for <EmailUser: spiderman@avengers.com> seems used"
+        ):
             signer.unsign(signature)
 
     def test_to_timestamp(self):

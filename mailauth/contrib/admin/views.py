@@ -18,6 +18,8 @@ class AdminLoginView(LoginView):
             'username': self.request.user.get_username(),
         })
         if (REDIRECT_FIELD_NAME not in self.request.GET and
-            REDIRECT_FIELD_NAME not in self.request.POST):
-            context[REDIRECT_FIELD_NAME] = reverse('admin:index', current_app=self.site.name)
+                REDIRECT_FIELD_NAME not in self.request.POST):
+            context[REDIRECT_FIELD_NAME] = reverse(
+                'admin:index', current_app=self.site.name
+            )
         return context

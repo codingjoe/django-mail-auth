@@ -38,7 +38,8 @@ class UserSigner(signing.TimestampSigner):
         when it has been issued.
 
         Args:
-            user (django.contrib.auth.base_user.AbstractBaseUser): User object to issue a token for.
+            user (django.contrib.auth.base_user.AbstractBaseUser):
+                User object to issue a token for.
 
         Returns:
             str: URL safe base64 string.
@@ -84,5 +85,7 @@ class UserSigner(signing.TimestampSigner):
             raise UserDoesNotExist("User with pk=%s does not exist" % user_pk) from e
         else:
             if last_login != '' and self.to_timestamp(user.last_login) != last_login:
-                raise signing.SignatureExpired("The access token for %r seems used" % user)
+                raise signing.SignatureExpired(
+                    "The access token for %r seems used" % user
+                )
             return user

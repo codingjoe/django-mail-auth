@@ -105,7 +105,9 @@ class EmailLoginForm(BaseLoginForm):
         self.fields[self.field_name] = field
 
     def get_users(self, email=None):
-        return get_user_model()._default_manager.filter(**{self.field_name: email}).iterator()
+        return get_user_model()._default_manager.filter(
+            **{self.field_name: email}
+        ).iterator()
 
     def save(self):
         """
@@ -125,7 +127,9 @@ class EmailLoginForm(BaseLoginForm):
         subject = ''.join(subject.splitlines())
         body = loader.render_to_string(self.email_template_name, context)
 
-        email_message = EmailMultiAlternatives(subject, body, self.from_email, [to_email])
+        email_message = EmailMultiAlternatives(
+            subject, body, self.from_email, [to_email]
+        )
         try:
             template = loader.get_template(self.html_email_template_name)
         except TemplateDoesNotExist:

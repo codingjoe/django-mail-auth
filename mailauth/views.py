@@ -18,7 +18,8 @@ class LoginView(DjangoLoginView):
     """
     Send a login code to the user.
 
-    It doesn't authenticate a user but it is the entry point for the login process (login URL).
+    It doesn't authenticate a user but it is the entry point for the login
+    process (login URL).
     """
 
     form_class = forms.EmailLoginForm
