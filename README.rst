@@ -18,10 +18,19 @@ Django Mail Auth features:
 - drop in Django User replacement
 - extendable SMS support
 
-This project was originally inspired by `Is it time for password-less login?`__ by `Ben Brown`_.
+This project was inspired by:
 
-__ http://notes.xoxco.com/post/27999787765/is-it-time-for-password-less-login
+- `Is it time for password-less login?`_ by `Ben Brown`_
+- `LOGIN WITHOUT PASSWORD MOST SECURE | WAIT.. WHAT?`_ by `Joris Snoek`_
+- `django-nopassword`_ by `Rolf Erik Lekang`_
+
+
+.. _`Rolf Erik Lekang`: http://rolflekang.com
+.. _`django-nopassword`: https://github.com/relekang/django-nopassword
+.. _`Is it time for password-less login?`: http://notes.xoxco.com/post/27999787765/is-it-time-for-password-less-login
+.. _`LOGIN WITHOUT PASSWORD MOST SECURE | WAIT.. WHAT?`: https://www.lucius.digital/en/blog/login-without-password-most-secure-wait-what
 .. _`Ben Brown`: http://twitter.com/benbrown
+.. _`Joris Snoek`: https://twitter.com/lucius_digital
 
 Installation
 ------------
@@ -41,7 +50,7 @@ First add `mailauth` to you installed apps::
 
         'mailauth',
         'mailauth.contrib.admin',  # optional
-        'mailauth.contrib.auth',  # optional
+        'mailauth.contrib.user',  # optional
 
         # other apps…
     ]
@@ -58,7 +67,8 @@ Next you will need to add the new authentication backend::
 
         AUTHENTICATION_BACKENDS = (
         # default, but now optional
-        # This should be removed if
+        # This should be removed if you use mailauth.contrib.user or any other
+        # custom user model that does not have a username/password
         'django.contrib.auth.backends.ModelBackend',
 
         # The new access token based authentication backend
