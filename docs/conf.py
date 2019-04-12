@@ -11,7 +11,7 @@ django.setup()
 
 project = "Django Mail Auth"
 copyright = "2019, Johannes Hoppe"
-release = get_distribution('django-mail-user').version
+release = get_distribution('django-mail-auth').version
 version = '.'.join(release.split('.')[:2])
 
 master_doc = 'index'
