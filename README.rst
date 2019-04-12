@@ -87,5 +87,5 @@ That's it!
    :target: https://travis-ci.com/codingjoe/django-mail-auth
 .. |coverage| image:: https://codecov.io/gh/codingjoe/django-mail-auth/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/codingjoe/django-mail-auth
-.. |license| image:: https://img.shields.io/badge/license-APL2-blue.svg
-   :target: LICENSE
+.. |license| image:: https://img.shields.io/badge/license-MIT-blue.svg
+   :target: :target: https://raw.githubusercontent.com/codingjoe/django-mail-auth/master/LICENSE
