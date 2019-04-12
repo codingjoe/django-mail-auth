@@ -27,10 +27,10 @@ The sample app
 To run a full example — e.g. to debug frontend code – you can run::
 
     python setup.py develop
-    python /tests/testapp/manage.py migrate
-    python /tests/testapp/manage.py createsuperuser
+    python tests/testapp/manage.py migrate
+    python tests/testapp/manage.py createsuperuser
     # You will be asked for the email address of your new superuser
-    python /tests/testapp/manage.py runserver
+    python tests/testapp/manage.py runserver
 
 Next you can go to https://localhost:8000/admin/ and log in with your newly
 created superuser.
