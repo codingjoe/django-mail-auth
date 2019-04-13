@@ -65,7 +65,7 @@ The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting::
 
 Next you will need to add the new authentication backend::
 
-        AUTHENTICATION_BACKENDS = (
+    AUTHENTICATION_BACKENDS = (
         # default, but now optional
         # This should be removed if you use mailauth.contrib.user or any other
         # custom user model that does not have a username/password
