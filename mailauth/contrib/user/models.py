@@ -1,6 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.crypto import get_random_string, salted_hmac
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -39,6 +40,10 @@ class AbstractEmailUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True, db_index=True)
     username = None
     password = None
+    session_salt = models.CharField(
+        max_length=12, editable=False,
+        default=get_random_string,
+    )
 
     def has_usable_password(self):
         return False
@@ -47,6 +52,16 @@ class AbstractEmailUser(AbstractUser):
 
     class Meta(AbstractUser.Meta):
         abstract = True
+
+    def get_session_auth_hash(self):
+        """Return an HMAC of the session_salt field."""
+        key_salt = "mailauth.contrib.user.models.EmailUserManager.get_session_auth_hash"
+        if not self.session_salt:
+            raise ValueError("'session_salt' must be set")
+        return salted_hmac(key_salt, self.session_salt).hexdigest()
+
+
+delattr(AbstractEmailUser, 'password')
 
 
 class EmailUser(AbstractEmailUser):
