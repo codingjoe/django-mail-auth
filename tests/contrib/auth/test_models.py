@@ -20,7 +20,7 @@ class TestAbstractEmailUser:
         with pytest.raises(ValueError) as e:
             user.get_session_auth_hash()
 
-        assert "'session_salt' must be set" in str(e)
+        assert "'session_salt' must be set" in str(e.value)
 
     def test_get_session_auth_hash__unique(self, db):
         spiderman = EmailUser(email='spiderman@avengers.com')
