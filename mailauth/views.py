@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, authenticate, login
 from django.contrib.auth.views import LoginView as DjangoLoginView
+from django.core.exceptions import PermissionDenied
 from django.http import response
 from django.shortcuts import resolve_url
 from django.utils.decorators import method_decorator
@@ -52,7 +53,7 @@ class LoginTokenView(DjangoLoginView):
 
         user = authenticate(request, token=token)
         if user is None:
-            return response.HttpResponseForbidden("Access denied.")
+            raise PermissionDenied
         else:
             login(self.request, user=user)
             # Remove token from the HTTP Referer header
