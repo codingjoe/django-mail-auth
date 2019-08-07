@@ -58,7 +58,7 @@ First add `mailauth` to you installed apps::
 `mailauth.contrib.admin` is optional and will replace the admin's login
 with token based authentication too.
 
-`mailauth.contrib.auth` is optional and provides a new Django User model.
+`mailauth.contrib.user` is optional and provides a new Django User model.
 The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting::
 
     AUTH_USER_MODEL = 'mailauth_user.EmailUser'
@@ -75,7 +75,7 @@ Next you will need to add the new authentication backend::
         'mailauth.backends.MailAuthBackend',
     )
 
-Django's `ModelBackend` is only only needed, if you still want to support
+Django's `ModelBackend` is only needed, if you still want to support
 password based authentication. If you don't, simply remove it from the list.
 
 Last but not least, go to your URL root config `urls.py` and add the following::
