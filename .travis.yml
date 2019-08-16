@@ -4,15 +4,23 @@ python:
   - "3.6"
   - "3.7"
 env:
-  - DJANGO=20
-  - DJANGO=21
-  - DJANGO=22
-  - DJANGO=master
+  - DJANGO=20-sqlite
+  - DJANGO=21-sqlite
+  - DJANGO=22-sqlite
+  - DJANGO=master-sqlite
+  - DJANGO=20-pg
+  - DJANGO=21-pg
+  - DJANGO=22-pg
+  - DJANGO=master-pg
+
+addons:
+  postgresql: "10"
 
 matrix:
   fast_finish: true
   allow_failures:
-    - env: DJANGO=master
+    - env: DJANGO=master-sqlite
+    - env: DJANGO=master-pg
 
 install: pip install tox-travis codecov
 before_script:

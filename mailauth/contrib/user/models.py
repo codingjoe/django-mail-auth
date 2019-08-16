@@ -4,6 +4,11 @@ from django.db import models
 from django.utils.crypto import get_random_string, salted_hmac
 from django.utils.translation import ugettext_lazy as _
 
+try:
+    from django.contrib.postgres.fields import CIEmailField
+except ImportError:
+    from django.db.models import EmailField as CIEmailField
+
 
 class EmailUserManager(BaseUserManager):
     use_in_migrations = True
@@ -37,7 +42,7 @@ class AbstractEmailUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    email = models.EmailField(_('email address'), unique=True, db_index=True)
+    email = CIEmailField(_('email address'), unique=True, db_index=True)
     username = None
     password = None
     session_salt = models.CharField(

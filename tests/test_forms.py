@@ -17,3 +17,8 @@ class TestEmailLoginForm:
 
         MyEmailLoginForm(request=None).send_mail('spiderman@avengers.com', {})
         assert mail.outbox[-1].alternatives
+
+    def test_get_users(self, db, user):
+        assert list(EmailLoginForm(request=None).get_users('spiderman@avengers.com'))
+        assert list(EmailLoginForm(request=None).get_users('SpiderMan@Avengers.com'))
+        assert not list(EmailLoginForm(request=None).get_users('SpiderMan@dc.com'))

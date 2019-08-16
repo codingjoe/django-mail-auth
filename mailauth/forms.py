@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
+from django.db import connection
 from django.template import TemplateDoesNotExist, loader
 from django.urls import reverse
 from django.utils.encoding import iri_to_uri
@@ -105,9 +106,11 @@ class EmailLoginForm(BaseLoginForm):
         self.fields[self.field_name] = field
 
     def get_users(self, email=None):
-        return get_user_model()._default_manager.filter(
-            **{self.field_name: email}
-        ).iterator()
+        if connection.vendor == 'postgresql':
+            query = {self.field_name: email}
+        else:
+            query = {'%s__iexact' % self.field_name: email}
+        return get_user_model()._default_manager.filter(**query).iterator()
 
     def save(self):
         """
