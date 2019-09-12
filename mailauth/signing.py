@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.core import signing
-from django.core.signing import SignatureExpired
 from django.utils import baseconv
 
 __all__ = (
@@ -53,15 +52,19 @@ class UserSigner(signing.TimestampSigner):
         user_pk = baseconv.base62.encode(user.pk)
         return self.sep.join((user_pk, last_login))
 
-    def unsign(self, value, max_age=None, allow_multi_use=False):
+    def unsign(self, value, max_age=None, single_use=True):
         """
         Verify access token and return user, if the token is valid.
 
         Args:
             value (str): URL safe base64 encoded access token.
             max_age (datetime.timedelta): Maximum age an access token to be valid.
-            allow_multi_use: If True allows the token to be used more than once
-
+            single_use (bool):
+                If ``True``, the same token can only be used once and will be invalid
+                the next try.
+                If ``False``, the same token can be used multiple times and remains
+                valid until expired.
+                Default: ``True``
         Returns:
             django.contrib.user.models.BaseUser: Return user object for given
             access token.
@@ -86,11 +89,9 @@ class UserSigner(signing.TimestampSigner):
         except get_user_model().DoesNotExist as e:
             raise UserDoesNotExist("User with pk=%s does not exist" % user_pk) from e
         else:
-            if last_login != '' and self.to_timestamp(user.last_login) != last_login:
-                if allow_multi_use:
-                    return user
-                else:
-                    raise SignatureExpired(
-                        "The access token for %r seems used" % user
-                    )
+            if (single_use and last_login != '' and
+                    self.to_timestamp(user.last_login) != last_login):
+                raise signing.SignatureExpired(
+                    "The access token for %r seems used" % user
+                )
             return user

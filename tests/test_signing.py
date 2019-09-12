@@ -39,20 +39,21 @@ class TestUserSigner:
         ):
             signer.unsign(signature)
 
-    def test_unsing__allow_multiple_use(self, db, signer, signature):
+    def test_unsing__single_use(self, db, signer, signature):
         user = get_user_model().objects.create_user(
             pk=1337,
             email='spiderman@avengers.com',
             # later date, that does not match the signature (token was used)
             last_login=timezone.datetime(2012, 7, 3, tzinfo=timezone.utc),
         )
-        assert user == signer.unsign(signature, allow_multi_use=True)
-        assert user == signer.unsign(signature, allow_multi_use=True)
+        assert user == signer.unsign(signature, single_use=False)
+        # test a second time to make sure token can be used more than one time
+        assert user == signer.unsign(signature, single_use=False)
         with pytest.raises(
             SignatureExpired,
             match="The access token for <EmailUser: spiderman@avengers.com> seems used"
         ):
-            signer.unsign(signature, allow_multi_use=False)
+            signer.unsign(signature, single_use=True)
 
     def test_to_timestamp(self):
         value = timezone.datetime(2002, 5, 3, tzinfo=timezone.utc)
