@@ -12,9 +12,10 @@ class MailAuthBackend(ModelBackend):
 
     def authenticate(self, request, token=None):
         max_age = getattr(settings, 'LOGIN_URL_TIMEOUT', 60 * 15)
+        single_use = getattr(settings, 'LOGIN_TOKEN_SINGLE_USE', True)
 
         try:
-            user = self.signer.unsign(token, max_age=max_age)
+            user = self.signer.unsign(token, max_age=max_age, single_use=single_use)
         except (get_user_model().DoesNotExist, BadSignature):
             return
         else:
