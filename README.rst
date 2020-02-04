@@ -16,6 +16,7 @@ Django Mail Auth features:
 - custom user model support
 - drop in Django admin support
 - drop in Django User replacement
+- drop in Wagtail login replacement
 - extendable SMS support
 
 This project was inspired by:
@@ -43,7 +44,7 @@ Run this command to install ``django-mail-auth``::
 Setup
 -----
 
-First add `mailauth` to you installed apps::
+First add ``mailauth`` to you installed apps::
 
     INSTALLED_APPS = [
         # Django's builtin apps…
@@ -51,14 +52,17 @@ First add `mailauth` to you installed apps::
         'mailauth',
         'mailauth.contrib.admin',  # optional
         'mailauth.contrib.user',  # optional
+        # optional, must be included before "wagtail.admin"
+        'mailauth.contrib.wagtail',
+
 
         # other apps…
     ]
 
-`mailauth.contrib.admin` is optional and will replace the admin's login
+``mailauth.contrib.admin`` is optional and will replace the admin's login
 with token based authentication too.
 
-`mailauth.contrib.user` is optional and provides a new Django User model.
+``mailauth.contrib.user`` is optional and provides a new Django User model.
 The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting::
 
     AUTH_USER_MODEL = 'mailauth_user.EmailUser'
@@ -75,16 +79,18 @@ Next you will need to add the new authentication backend::
         'mailauth.backends.MailAuthBackend',
     )
 
-Django's `ModelBackend` is only needed, if you still want to support
+Django's ``ModelBackend`` is only needed, if you still want to support
 password based authentication. If you don't, simply remove it from the list.
 
-Last but not least, go to your URL root config `urls.py` and add the following::
+Last but not least, go to your URL root config ``urls.py`` and add the following::
 
     from django.urls import path
 
 
     urlpatterns = [
         path('accounts/', include('mailauth.urls')),
+        # optional, must be before "wagtail.admin.urls"
+        path('', include('mailauth.contrib.wagtail.urls')),
     ]
 
 That's it!
