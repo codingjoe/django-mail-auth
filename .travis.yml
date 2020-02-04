@@ -3,14 +3,13 @@ dist: xenial
 python:
   - "3.6"
   - "3.7"
+  - "3.8"
 env:
-  - DJANGO=20-sqlite
-  - DJANGO=21-sqlite
   - DJANGO=22-sqlite
+  - DJANGO=30-sqlite
   - DJANGO=master-sqlite
-  - DJANGO=20-pg
-  - DJANGO=21-pg
   - DJANGO=22-pg
+  - DJANGO=30-pg
   - DJANGO=master-pg
 
 addons:
