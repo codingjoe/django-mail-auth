@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'mailauth',
     'mailauth.contrib.admin',
     'mailauth.contrib.user',
+    'mailauth.contrib.wagtail',
+    'wagtail.admin',
+    'wagtail.core',
+    'wagtail',
 ]
 
 AUTHENTICATION_BACKENDS = (
