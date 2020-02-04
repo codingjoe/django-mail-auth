@@ -96,7 +96,11 @@ elif DB == 'pg':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'django-test',
+            'HOST': '127.0.0.1',
+            'PORT': int(os.getenv('DB_PORT', 3306)),
+            'NAME': 'default_django',
+            'USER': 'django',
+            'PASSWORD': 'django',
         }
     }
 
