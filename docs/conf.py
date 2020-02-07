@@ -28,3 +28,8 @@ intersphinx_mapping = {
     'django': ('https://docs.djangoproject.com/en/stable/',
                'https://docs.djangoproject.com/en/stable/_objects/'),
 }
+
+
+autodoc_default_options = {
+    'show-inheritance': True,
+}
