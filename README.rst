@@ -38,8 +38,7 @@ Installation
 
 Run this command to install ``django-mail-auth``::
 
-    pip install django-mail-auth
-
+    python3 -m pip install django-mail-auth[wagtail]
 
 Setup
 -----
@@ -50,8 +49,10 @@ First add ``mailauth`` to you installed apps::
         # Django's builtin apps…
 
         'mailauth',
+
         'mailauth.contrib.admin',  # optional
         'mailauth.contrib.user',  # optional
+
         # optional, must be included before "wagtail.admin"
         'mailauth.contrib.wagtail',
 
@@ -65,7 +66,13 @@ with token based authentication too.
 ``mailauth.contrib.user`` is optional and provides a new Django User model.
 The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting::
 
+    # This setting should be either "EmailUser" or
+    # any custom subclass of "AbstractEmailUser"
     AUTH_USER_MODEL = 'mailauth_user.EmailUser'
+
+    # optional, Wagtail only
+    WAGTAILUSERS_PASSWORD_ENABLED = False
+
 
 Next you will need to add the new authentication backend::
 
@@ -89,6 +96,7 @@ Last but not least, go to your URL root config ``urls.py`` and add the following
 
     urlpatterns = [
         path('accounts/', include('mailauth.urls')),
+
         # optional, must be before "wagtail.admin.urls"
         path('', include('mailauth.contrib.wagtail.urls')),
     ]

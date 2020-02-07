@@ -2,8 +2,11 @@
 Customizing
 ===========
 
-Django Mail Auth can be easily extend. Besides template adaptations it is
-possible to send send different messages like SMS. To make those changes you
+Custom login message (like SMS)
+_______________________________
+
+Django Mail Auth can be easily extended. Besides template adaptations it is
+possible to send different messages like SMS. To make those changes, you
 will need to write a custom login form.
 
 Custom login form
@@ -75,4 +78,47 @@ API documentation
 -----------------
 
 .. autoclass:: mailauth.forms.BaseLoginForm
+    :members:
+
+Custom User Model
+_________________
+
+For convenience, Django Mail Auth provides a
+:class:`EmailUser<mailauth.contrib.user.models.EmailUser>` which is almost
+identical to Django's built in :class:`User<django.contrib.auth.models.User>`
+but without the :attr:`password<django.contrib.auth.models.User.password>`
+and :attr:`username<django.contrib.auth.models.User.username>` field.
+The :attr:`email<mailauth.contrib.user.models.AbstractEmailUser.email>`
+field serves as a username and is – different to Django's User –
+unique and case insensitive.
+
+Implementing a custom User model
+--------------------------------
+
+.. code-block:: python
+
+    from mailauth.contrib.user.models import AbstractEmailUser
+    from phonenumber_field.modelfields import PhoneNumberField
+
+
+    class SMSUser(AbstractEmailUser):
+        phone_number = phone = PhoneNumberField(_("phone number"), unique=True, db_index=True)
+
+    class Meta(AbstractEmailUser.Meta):
+        verbose_name = _("user")
+        verbose_name_plural = _("users")
+        swappable = "AUTH_USER_MODEL"
+
+.. note:: Do not forget to adjust your ``AUTH_USER_MODEL`` to correct ``app_label.ModelName``.
+
+API documentation
+-----------------
+
+.. autoclass:: mailauth.contrib.user.models.AbstractEmailUser
+    :members:
+
+    .. autoattribute:: mailauth.contrib.user.models.AbstractEmailUser.email
+    .. autoattribute:: mailauth.contrib.user.models.AbstractEmailUser.session_salt
+
+.. autoclass:: mailauth.contrib.user.models.EmailUser
     :members:
