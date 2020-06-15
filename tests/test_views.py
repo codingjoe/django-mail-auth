@@ -1,5 +1,16 @@
 from django.urls import reverse
 
+from mailauth.views import LoginView
+
+
+class TestLoginView:
+
+    def test_get_initial(self, rf):
+        view = LoginView()
+        view.request = rf.get("/", data={"next": "foo/bar"})
+
+        assert view.get_initial() == {"next": "foo/bar"}
+
 
 class TestLoginTokenView:
 
