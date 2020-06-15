@@ -48,11 +48,11 @@ class AbstractEmailUser(AbstractUser):
     email = CIEmailField(_('email address'), unique=True, db_index=True)
     """The field is unique and case insensitive to serve as a better username."""
 
+    # Salt for the session hash replacing the password in this function.
     session_salt = models.CharField(
         max_length=12, editable=False,
         default=get_random_string,
     )
-    """Salt for the session hash replacing the password in this function."""
 
     def has_usable_password(self):
         return False
@@ -63,7 +63,7 @@ class AbstractEmailUser(AbstractUser):
         abstract = True
 
     def get_session_auth_hash(self):
-        """Return an HMAC of the session_salt field."""
+        """Return an HMAC of the :attr:`.session_salt` field."""
         key_salt = "mailauth.contrib.user.models.EmailUserManager.get_session_auth_hash"
         if not self.session_salt:
             raise ValueError("'session_salt' must be set")
