@@ -35,6 +35,12 @@ class LoginView(DjangoLoginView):
     def get_success_url(self):
         return resolve_url(self.success_url)
 
+    def get_initial(self):
+        return {
+            self.redirect_field_name: self.request.GET.get(self.redirect_field_name),
+            **super().get_initial(),
+        }
+
 
 INTERNAL_LOGIN_URL_TOKEN = 'login-token'
 
