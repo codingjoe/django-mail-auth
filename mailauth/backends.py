@@ -28,7 +28,7 @@ class MailAuthBackend(ModelBackend):
         except SignatureExpired:
             logger.warning("Token has expired.", exc_info=True)
         except BadSignature:
-            logger.exception("Malicious or corrupted login token received.")
+            logger.exception('Malicious or corrupted login token received: "%s"', token)
         else:
             if self.user_can_authenticate(user):
                 return user
