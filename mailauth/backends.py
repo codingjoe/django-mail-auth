@@ -1,10 +1,14 @@
+import logging
+
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
-from django.core.signing import BadSignature
+from django.core.signing import BadSignature, SignatureExpired
 from django.urls import reverse
 
 from . import signing
+from .signing import UserDoesNotExist
+
+logger = logging.getLogger(__name__)
 
 
 class MailAuthBackend(ModelBackend):
@@ -16,8 +20,15 @@ class MailAuthBackend(ModelBackend):
 
         try:
             user = self.signer.unsign(token, max_age=max_age, single_use=single_use)
-        except (get_user_model().DoesNotExist, BadSignature):
-            return
+        except UserDoesNotExist:
+            logger.warning(
+                "Valid token for non-existing user. Maybe the user has been deleted.",
+                exc_info=True,
+            )
+        except SignatureExpired:
+            logger.warning("Token has expired.", exc_info=True)
+        except BadSignature:
+            logger.exception("Malicious or corrupted login token received.")
         else:
             if self.user_can_authenticate(user):
                 return user
