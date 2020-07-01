@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class MailAuthBackend(ModelBackend):
-    signer = signing.UserSigner(sep='/')
+    signer = signing.UserSigner()
 
     def authenticate(self, request, token=None):
         max_age = getattr(settings, 'LOGIN_URL_TIMEOUT', 60 * 15)

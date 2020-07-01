@@ -62,5 +62,5 @@ class TestMailAuthBackend:
         backend = MailAuthBackend()
         MailAuthBackend.signer = signer
         assert backend.get_login_url(signature) == (
-            "/accounts/login/LZ/173QUS/1Hjptg/fTLJcaon_7zMDyFTIFtlDqbdSt4"
+            "/accounts/login/LZ.173QUS.1Hjptg.lf2hFgOXQtjQsFypS2ItRG2hkpA"
         )
