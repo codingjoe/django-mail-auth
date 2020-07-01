@@ -36,10 +36,10 @@ def admin_user(db):
 @pytest.fixture()
 def signature():
     """Return a signature matching the user fixture."""
-    return 'LZ/173QUS/1Hjptg/fTLJcaon_7zMDyFTIFtlDqbdSt4'
+    return 'LZ.173QUS.1Hjptg.lf2hFgOXQtjQsFypS2ItRG2hkpA'
 
 
 @pytest.fixture()
 def signer():
     """Return a forzen version of the UserSigner."""
-    return FrozenUserSigner(sep='/')
+    return FrozenUserSigner()
