@@ -60,7 +60,7 @@ class AbstractEmailUser(AbstractUser):
     objects = EmailUserManager()
 
     class Meta(AbstractUser.Meta):
-        abstract = True
+        pass
 
     def get_session_auth_hash(self):
         """Return an HMAC of the :attr:`.session_salt` field."""
