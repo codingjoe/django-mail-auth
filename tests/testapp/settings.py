@@ -41,11 +41,20 @@ INSTALLED_APPS = [
     'mailauth',
     'mailauth.contrib.admin',
     'mailauth.contrib.user',
-    'mailauth.contrib.wagtail',
-    'wagtail.admin',
-    'wagtail.core',
-    'wagtail',
+
 ]
+
+try:
+    import wagtail  # NoQA
+except ImportError:
+    pass
+else:
+    INSTALLED_APPS += [
+        'mailauth.contrib.wagtail',
+        'wagtail.admin',
+        'wagtail.core',
+        'wagtail',
+    ]
 
 AUTHENTICATION_BACKENDS = (
     'mailauth.backends.MailAuthBackend',

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -37,6 +38,10 @@ class EmailUserManager(BaseUserManager):
         return self._create_user(email, **extra_fields)
 
 
+def _get_session_salt():
+    return get_random_string(12)
+
+
 class AbstractEmailUser(AbstractUser):
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
@@ -51,7 +56,7 @@ class AbstractEmailUser(AbstractUser):
     # Salt for the session hash replacing the password in this function.
     session_salt = models.CharField(
         max_length=12, editable=False,
-        default=get_random_string,
+        default=_get_session_salt,
     )
 
     def has_usable_password(self):
@@ -62,12 +67,29 @@ class AbstractEmailUser(AbstractUser):
     class Meta(AbstractUser.Meta):
         abstract = True
 
+    def _legacy_get_session_auth_hash(self):
+        # RemovedInDjango40Warning: pre-Django 3.1 hashes will be invalid.
+        key_salt = "mailauth.contrib.user.models.EmailUserManager.get_session_auth_hash"
+        if not self.session_salt:
+            raise ValueError("'session_salt' must be set")
+        return salted_hmac(key_salt, self.session_salt, algorithm='sha1').hexdigest()
+
     def get_session_auth_hash(self):
         """Return an HMAC of the :attr:`.session_salt` field."""
         key_salt = "mailauth.contrib.user.models.EmailUserManager.get_session_auth_hash"
         if not self.session_salt:
             raise ValueError("'session_salt' must be set")
-        return salted_hmac(key_salt, self.session_salt).hexdigest()
+        algorithm = getattr(settings, 'DEFAULT_HASHING_ALGORITHM', None)
+        if algorithm is None:
+            return salted_hmac(key_salt, self.session_salt).hexdigest()
+        return salted_hmac(
+            key_salt,
+            self.session_salt,
+            # RemovedInDjango40Warning: when the deprecation ends, replace
+            # with:
+            # algorithm='sha256',
+            algorithm=algorithm,
+        ).hexdigest()
 
 
 delattr(AbstractEmailUser, 'password')
