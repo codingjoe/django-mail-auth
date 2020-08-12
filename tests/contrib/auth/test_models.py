@@ -1,3 +1,4 @@
+import django
 import pytest
 from django.core.exceptions import FieldDoesNotExist
 
@@ -27,6 +28,32 @@ class TestAbstractEmailUser:
         ironman = EmailUser(email='ironman@avengers.com')
 
         assert spiderman.get_session_auth_hash() != ironman.get_session_auth_hash()
+
+    @pytest.mark.skipif(django.VERSION < (3, 1), reason="requires Django 3.1 or higher")
+    def test_legacy_get_session_auth_hash__default(self, db):
+        user = EmailUser(email='spiderman@avengers.com')
+
+        assert user.session_salt
+        assert user._legacy_get_session_auth_hash()
+
+    @pytest.mark.skipif(django.VERSION < (3, 1), reason="requires Django 3.1 or higher")
+    def test_legacy_get_session_auth_hash__value_error(self, db):
+        user = EmailUser(email='spiderman@avengers.com', session_salt=None)
+
+        with pytest.raises(ValueError) as e:
+            user._legacy_get_session_auth_hash()
+
+        assert "'session_salt' must be set" in str(e.value)
+
+    @pytest.mark.skipif(django.VERSION < (3, 1), reason="requires Django 3.1 or higher")
+    def test_legacy_get_session_auth_hash__unique(self, db):
+        spiderman = EmailUser(email='spiderman@avengers.com')
+        ironman = EmailUser(email='ironman@avengers.com')
+
+        assert (
+            spiderman._legacy_get_session_auth_hash() !=
+            ironman._legacy_get_session_auth_hash()
+        )
 
     def test_password_field(self):
         user = EmailUser(email='spiderman@avengers.com')
