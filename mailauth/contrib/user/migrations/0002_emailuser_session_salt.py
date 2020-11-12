@@ -8,13 +8,17 @@ import mailauth
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mailauth_user', '0001_initial'),
+        ("mailauth_user", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='emailuser',
-            name='session_salt',
-            field=models.CharField(default=mailauth.contrib.user.models._get_session_salt, editable=False, max_length=12),
+            model_name="emailuser",
+            name="session_salt",
+            field=models.CharField(
+                default=mailauth.contrib.user.models._get_session_salt,
+                editable=False,
+                max_length=12,
+            ),
         ),
     ]

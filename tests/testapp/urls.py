@@ -2,9 +2,8 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('accounts/', include('mailauth.urls')),
+    path("accounts/", include("mailauth.urls")),
     path("django-admin/", admin.site.urls),
-
 ]
 
 try:

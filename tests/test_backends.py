@@ -19,7 +19,7 @@ class TestMailAuthBackend:
         backend = MailAuthBackend()
         backend.signer = signer
         user.is_active = False
-        user.save(update_fields=['is_active'], force_update=True)
+        user.save(update_fields=["is_active"], force_update=True)
         with caplog.at_level(logging.WARNING):
             user = backend.authenticate(None, token=signature)
 
@@ -43,9 +43,7 @@ class TestMailAuthBackend:
             "Valid token for non-existing user. Maybe the user has been deleted."
         )
 
-    def test_authenticate__timeout(
-        self, db, caplog, user, settings, signer, signature
-    ):
+    def test_authenticate__timeout(self, db, caplog, user, settings, signer, signature):
         settings.LOGIN_URL_TIMEOUT = 0
         backend = MailAuthBackend()
         backend.signer = signer
@@ -78,6 +76,4 @@ class TestMailAuthBackend:
     def test_get_login_url(self, signer, signature):
         backend = MailAuthBackend()
         MailAuthBackend.signer = signer
-        assert backend.get_login_url(signature) == (
-            f"/accounts/login/{signature}"
-        )
+        assert backend.get_login_url(signature) == (f"/accounts/login/{signature}")
