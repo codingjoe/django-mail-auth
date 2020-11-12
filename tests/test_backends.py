@@ -12,6 +12,23 @@ class TestMailAuthBackend:
         assert user is not None
         assert user.is_authenticated
 
+    def test_authenticate__user_is_not_active(
+        self, db, caplog, user, settings, signer, signature
+    ):
+        settings.LOGIN_URL_TIMEOUT = float("inf")
+        backend = MailAuthBackend()
+        backend.signer = signer
+        user.is_active = False
+        user.save(update_fields=['is_active'], force_update=True)
+        with caplog.at_level(logging.WARNING):
+            user = backend.authenticate(None, token=signature)
+
+        assert user is None
+        assert caplog.records[-1].levelname == "WARNING"
+        assert caplog.records[-1].message == (
+            "User 'spiderman@avengers.com' is not allowed to authenticate."
+        )
+
     def test_authenticate__user_does_not_exist(
         self, db, caplog, settings, signer, signature
     ):

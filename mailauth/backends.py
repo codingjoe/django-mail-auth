@@ -32,6 +32,11 @@ class MailAuthBackend(ModelBackend):
         else:
             if self.user_can_authenticate(user):
                 return user
+            logger.warning(
+                "User '%s' is not allowed to authenticate.",
+                user,
+                exc_info=True,
+            )
 
     @classmethod
     def get_token(cls, user):
