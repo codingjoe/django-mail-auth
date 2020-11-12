@@ -3,7 +3,8 @@ from django.core import signing
 from django.utils import baseconv
 
 __all__ = (
-    'UserDoesNotExist', 'UserSigner',
+    "UserDoesNotExist",
+    "UserSigner",
 )
 
 
@@ -14,7 +15,7 @@ class UserDoesNotExist(signing.BadSignature):
 class UserSigner(signing.TimestampSigner):
     """Issue and verify URL safe access tokens for users."""
 
-    def __init__(self, key=None, sep='.', salt=None):
+    def __init__(self, key=None, sep=".", salt=None):
         super().__init__(key=key, sep=sep, salt=salt)
 
     @staticmethod
@@ -30,7 +31,7 @@ class UserSigner(signing.TimestampSigner):
 
         """
         if value is None:
-            return ''
+            return ""
         return baseconv.base62.encode(int(value.timestamp()))
 
     def sign(self, user):
@@ -92,8 +93,11 @@ class UserSigner(signing.TimestampSigner):
         except get_user_model().DoesNotExist as e:
             raise UserDoesNotExist("User with pk=%s does not exist" % user_pk) from e
         else:
-            if (single_use and last_login != '' and
-                    self.to_timestamp(user.last_login) != last_login):
+            if (
+                single_use
+                and last_login != ""
+                and self.to_timestamp(user.last_login) != last_login
+            ):
                 raise signing.SignatureExpired(
                     "The access token for %r seems used" % user
                 )

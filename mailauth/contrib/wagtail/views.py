@@ -5,7 +5,7 @@ from wagtail.admin.views.account import LoginView as WagtailLoginView
 
 from mailauth.forms import EmailLoginForm
 
-__all__ = ('LoginView',)
+__all__ = ("LoginView",)
 
 
 class LoginView(WagtailLoginView):
@@ -19,6 +19,6 @@ class LoginView(WagtailLoginView):
         messages.add_message(
             self.request,
             messages.SUCCESS,
-            _('We sent you an email with instructions to log into your account.'),
+            _("We sent you an email with instructions to log into your account."),
         )
         return response.HttpResponseRedirect(self.get_success_url())

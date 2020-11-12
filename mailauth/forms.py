@@ -26,18 +26,15 @@ class BaseLoginForm(forms.Form):
             str: User login URL including the access token.
 
         """
-        protocol = 'https' if request.is_secure() else 'http'
+        protocol = "https" if request.is_secure() else "http"
         current_site = get_current_site(request)
-        url = '{protocol}://{domain}{path}'.format(
+        url = "{protocol}://{domain}{path}".format(
             protocol=protocol,
             domain=current_site.domain,
-            path=reverse(
-                'mailauth:login-token',
-                kwargs={'token': token}
-            )
+            path=reverse("mailauth:login-token", kwargs={"token": token}),
         )
         if next is not None:
-            url += '?next=%s' % iri_to_uri(next)
+            url += "?next=%s" % iri_to_uri(next)
         return url
 
     def get_token(self, user):
@@ -65,13 +62,13 @@ class BaseLoginForm(forms.Form):
         """
         token = self.get_token(user)
         site = get_current_site(request)
-        login_url = self.get_login_url(request, token, self.cleaned_data['next'])
+        login_url = self.get_login_url(request, token, self.cleaned_data["next"])
         return {
-            'site': site,
-            'site_name': site.name,
-            'token': token,
-            'login_url': login_url,
-            'user': user,
+            "site": site,
+            "site_name": site.name,
+            "token": token,
+            "login_url": login_url,
+            "user": user,
         }
 
     def save(self):
@@ -89,9 +86,9 @@ class BaseLoginForm(forms.Form):
 class EmailLoginForm(BaseLoginForm):
     """Login form that contains only the Users email field."""
 
-    subject_template_name = 'registration/login_subject.txt'
-    email_template_name = 'registration/login_email.txt'
-    html_email_template_name = 'registration/login_email.html'
+    subject_template_name = "registration/login_subject.txt"
+    email_template_name = "registration/login_email.txt"
+    html_email_template_name = "registration/login_email.html"
     from_email = None
 
     def __init__(self, request, *args, **kwargs):
@@ -106,10 +103,10 @@ class EmailLoginForm(BaseLoginForm):
         self.fields[self.field_name] = field
 
     def get_users(self, email=None):
-        if connection.vendor == 'postgresql':
+        if connection.vendor == "postgresql":
             query = {self.field_name: email}
         else:
-            query = {'%s__iexact' % self.field_name: email}
+            query = {"%s__iexact" % self.field_name: email}
         return get_user_model()._default_manager.filter(**query).iterator()
 
     def save(self):
@@ -127,7 +124,7 @@ class EmailLoginForm(BaseLoginForm):
         """Send a django.core.mail.EmailMultiAlternatives to `to_email`."""
         subject = loader.render_to_string(self.subject_template_name, context)
         # Email subject *must not* contain newlines
-        subject = ''.join(subject.splitlines())
+        subject = "".join(subject.splitlines())
         body = loader.render_to_string(self.email_template_name, context)
 
         email_message = EmailMultiAlternatives(
@@ -139,6 +136,6 @@ class EmailLoginForm(BaseLoginForm):
             pass
         else:
             html_email = template.render(context, self.request)
-            email_message.attach_alternative(html_email, 'text/html')
+            email_message.attach_alternative(html_email, "text/html")
 
         email_message.send()

@@ -11,7 +11,8 @@ from django.views.decorators.cache import never_cache
 from mailauth import forms
 
 __all__ = (
-    'LoginView', 'LoginTokenView',
+    "LoginView",
+    "LoginTokenView",
 )
 
 
@@ -24,8 +25,8 @@ class LoginView(DjangoLoginView):
     """
 
     form_class = forms.EmailLoginForm
-    success_url = getattr(settings, 'LOGIN_REQUESTED_URL', 'mailauth:login-success')
-    template_name = 'registration/login.html'
+    success_url = getattr(settings, "LOGIN_REQUESTED_URL", "mailauth:login-success")
+    template_name = "registration/login.html"
     redirect_field_name = REDIRECT_FIELD_NAME
 
     def form_valid(self, form):
@@ -42,7 +43,7 @@ class LoginView(DjangoLoginView):
         }
 
 
-INTERNAL_LOGIN_URL_TOKEN = 'login-token'
+INTERNAL_LOGIN_URL_TOKEN = "login-token"
 
 
 class LoginTokenView(DjangoLoginView):
@@ -55,7 +56,7 @@ class LoginTokenView(DjangoLoginView):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        token = kwargs['token']
+        token = kwargs["token"]
 
         user = authenticate(request, token=token)
         if user is None:
@@ -72,4 +73,4 @@ class LoginTokenView(DjangoLoginView):
 
 
 class LoginRequestedView(generic.TemplateView):
-    template_name = 'registration/login_requested.html'
+    template_name = "registration/login_requested.html"
