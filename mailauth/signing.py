@@ -1,6 +1,16 @@
+import django
 from django.contrib.auth import get_user_model
 from django.core import signing
-from django.utils import baseconv
+
+if django.VERSION >= (4, 0):
+    b62_encode = signing.b62_encode
+    b62_decode = signing.b62_decode
+else:
+    from django.utils import baseconv
+
+    b62_encode = baseconv.base62.encode
+    b62_decode = baseconv.base62.decode
+
 
 __all__ = (
     "UserDoesNotExist",
@@ -32,7 +42,7 @@ class UserSigner(signing.TimestampSigner):
         """
         if value is None:
             return ""
-        return baseconv.base62.encode(int(value.timestamp()))
+        return b62_encode(int(value.timestamp()))
 
     def sign(self, user):
         """
@@ -53,7 +63,7 @@ class UserSigner(signing.TimestampSigner):
 
     def _make_hash_value(self, user):
         last_login = self.to_timestamp(user.last_login)
-        user_pk = baseconv.base62.encode(user.pk)
+        user_pk = b62_encode(user.pk)
         return self.sep.join((user_pk, last_login))
 
     def unsign(self, value, max_age=None, single_use=True):
@@ -87,7 +97,7 @@ class UserSigner(signing.TimestampSigner):
         """
         result = super().unsign(value, max_age=max_age)
         user_pk, last_login = result.rsplit(self.sep, 2)
-        user_pk = baseconv.base62.decode(user_pk)
+        user_pk = b62_decode(user_pk)
         try:
             user = get_user_model()._default_manager.get(pk=user_pk)
         except get_user_model().DoesNotExist as e:
