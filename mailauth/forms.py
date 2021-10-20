@@ -1,3 +1,5 @@
+import urllib
+
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
@@ -5,7 +7,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.db import connection
 from django.template import TemplateDoesNotExist, loader
 from django.urls import reverse
-from django.utils.encoding import iri_to_uri
 
 from mailauth.backends import MailAuthBackend
 
@@ -34,7 +35,7 @@ class BaseLoginForm(forms.Form):
             path=reverse("mailauth:login-token", kwargs={"token": token}),
         )
         if next is not None:
-            url += "?next=%s" % iri_to_uri(next)
+            url += "?next=%s" % urllib.parse.quote(next)
         return url
 
     def get_token(self, user):
