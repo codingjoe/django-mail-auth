@@ -25,9 +25,6 @@ class UserDoesNotExist(signing.BadSignature):
 class UserSigner(signing.TimestampSigner):
     """Issue and verify URL safe access tokens for users."""
 
-    def __init__(self, key=None, sep=".", salt=None):
-        super().__init__(key=key, sep=sep, salt=salt)
-
     @staticmethod
     def to_timestamp(value):
         """
