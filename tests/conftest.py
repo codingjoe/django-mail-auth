@@ -38,7 +38,7 @@ def admin_user(db):
 def signature():
     """Return a signature matching the user fixture."""
     if django.VERSION < (3, 1):
-        return "LZ:173QUS:1Hjptg:lf2hFgOXQtjQsFypS2ItRG2hkpA"
+        return "LZ:173QUS:1Hjptg:umUR9iKN1rxDezT-dZGwqcqsM5Y"
     return "LZ:173QUS:1Hjptg:6oq5DS1NJ7SxJ1o-CpfgaqrImVaRpkcHrzV9yltwcHM"
 
 
