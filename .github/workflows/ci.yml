@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/setup-python@v2.3.0
       - uses: actions/checkout@v2.4.0
-      - uses: actions/cache@v2.1.6
+      - uses: actions/cache@v2.1.7
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
