@@ -42,7 +42,7 @@ class BaseLoginForm(forms.Form):
         """Return the access token."""
         return MailAuthBackend.get_token(user=user)
 
-    def get_context(self, request, user):
+    def get_mail_context(self, request, user):
         """
         Return the context for a message template render.
 
@@ -118,7 +118,7 @@ class EmailLoginForm(BaseLoginForm):
         """
         email = self.cleaned_data[self.field_name]
         for user in self.get_users(email):
-            context = self.get_context(self.request, user)
+            context = self.get_mail_context(self.request, user)
             self.send_mail(email, context)
 
     def send_mail(self, to_email, context):
