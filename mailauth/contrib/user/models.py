@@ -5,6 +5,8 @@ from django.db import models
 from django.utils.crypto import get_random_string, salted_hmac
 from django.utils.translation import gettext_lazy as _
 
+from . import signals
+
 try:
     from django.contrib.postgres.fields import CIEmailField
 except ImportError:
@@ -50,7 +52,9 @@ class AbstractEmailUser(AbstractUser):
     username = None
     password = None
 
-    email = CIEmailField(_("email address"), unique=True, db_index=True)
+    email = CIEmailField(
+        _("email address"), blank=True, null=True, unique=True, db_index=True
+    )
     """Unique and case insensitive to serve as a better username."""
 
     session_salt = models.CharField(
@@ -67,6 +71,9 @@ class AbstractEmailUser(AbstractUser):
 
     class Meta(AbstractUser.Meta):
         abstract = True
+        permissions = [
+            ("anonymize", "Can anonymize user"),
+        ]
 
     def _legacy_get_session_auth_hash(self):
         # RemovedInDjango40Warning: pre-Django 3.1 hashes will be invalid.
@@ -91,6 +98,31 @@ class AbstractEmailUser(AbstractUser):
             # algorithm='sha256',
             algorithm=algorithm,
         ).hexdigest()
+
+    def anonymize(self, commit=True):
+        """
+        Anonymize the user data for privacy purposes.
+
+        This method will erase the email address, first and last name.
+        You may overwrite this method to add additional fields to anonymize::
+
+            class MyUser(AbstractEmailUser):
+                def anonymize(self, commit=True):
+                    super().anonymize(commit=False) # do not commit yet
+                    self.phone_number = None
+                    if commit:
+                        self.save()
+        """
+        self.email = None
+        self.first_name = ""
+        self.last_name = ""
+        update_fields = ["email", "first_name", "last_name"]
+        if commit:
+            self.save(update_fields=update_fields)
+        signals.anonymize.send(
+            sender=self.__class__, instance=self, update_fields=tuple(update_fields)
+        )
+        return update_fields
 
 
 delattr(AbstractEmailUser, "password")

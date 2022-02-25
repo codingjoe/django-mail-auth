@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Johannes Hoppe <info@johanneshoppe.com>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-14 16:56+0200\n"
+"PO-Revision-Date: 2022-04-14 15:38+0200\n"
+"Last-Translator: Johannes Maron <johannes@maron.family>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: admin.py:19
+#, python-format
+msgid "Anonymize selected %(verbose_name_plural)s"
+msgstr "Ausgewählte %(verbose_name_plural)s anonymisieren"
+
+#: admin.py:29
+#, python-format
+msgid "%(count)s %(obj_name)s has successfully been anonymized."
+msgid_plural "%(count)s %(obj_name)s have successfully been anonymized."
+msgstr[0] "%(count)s %(obj_name)s wurde erfolgreich anonymisiert."
+msgstr[1] "%(count)s %(obj_name)s wurden erfolgreich anonymisiert."
+
+#: models.py:56
+msgid "email address"
+msgstr "E-Mail-Adresse"

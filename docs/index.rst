@@ -10,6 +10,7 @@ All Contents
 
     usage
     templates
+    privacy
     customizing
     settings
     contributing
