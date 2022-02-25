@@ -118,7 +118,9 @@ API documentation
     :members:
 
     .. autoattribute:: mailauth.contrib.user.models.AbstractEmailUser.email
+       :noindex:
     .. autoattribute:: mailauth.contrib.user.models.AbstractEmailUser.session_salt
+       :noindex:
 
 .. autoclass:: mailauth.contrib.user.models.EmailUser
     :members:
