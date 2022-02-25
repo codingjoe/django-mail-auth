@@ -51,14 +51,14 @@ class AbstractEmailUser(AbstractUser):
     password = None
 
     email = CIEmailField(_("email address"), unique=True, db_index=True)
-    """The field is unique and case insensitive to serve as a better username."""
+    """Unique and case insensitive to serve as a better username."""
 
-    # Salt for the session hash replacing the password in this function.
     session_salt = models.CharField(
         max_length=12,
         editable=False,
         default=_get_session_salt,
     )
+    """Salt for the session hash replacing the password in this function."""
 
     def has_usable_password(self):
         return False
