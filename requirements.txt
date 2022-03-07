@@ -1,6 +1,6 @@
 Django>=2.2
 Wagtail>=2.8
-bandit==1.7.3
+bandit==1.7.4
 black==22.1.0
 flake8==4.0.1
 isort==5.10.1
