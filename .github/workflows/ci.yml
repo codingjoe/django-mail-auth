@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         lint-command:
-          - "bandit -r hijack -x hijack/tests"
+          - "bandit -r mailauth -x tests"
           - "black --check --diff ."
           - "flake8 ."
           - "isort --check-only --diff ."
