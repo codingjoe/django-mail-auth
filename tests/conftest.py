@@ -1,4 +1,3 @@
-import django
 import pytest
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -37,8 +36,6 @@ def admin_user(db):
 @pytest.fixture()
 def signature():
     """Return a signature matching the user fixture."""
-    if django.VERSION < (3, 1):
-        return "LZ:173QUS:1Hjptg:umUR9iKN1rxDezT-dZGwqcqsM5Y"
     return "LZ:173QUS:1Hjptg:6oq5DS1NJ7SxJ1o-CpfgaqrImVaRpkcHrzV9yltwcHM"
 
 
