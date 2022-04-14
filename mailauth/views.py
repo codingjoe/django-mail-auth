@@ -43,7 +43,7 @@ class LoginView(DjangoLoginView):
         }
 
 
-INTERNAL_LOGIN_URL_TOKEN = "login-token"
+INTERNAL_LOGIN_URL_TOKEN = "login-token"  # nosec
 
 
 class LoginTokenView(DjangoLoginView):
