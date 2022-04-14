@@ -3,3 +3,4 @@ recursive-include mailauth/templates *
 recursive-include mailauth/contrib/admin/templates *
 recursive-include mailauth/contrib/admin/static *
 recursive-include mailauth/contrib/admin/locale *
+recursive-include mailauth/contrib/user/locale *
