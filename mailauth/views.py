@@ -47,7 +47,7 @@ INTERNAL_LOGIN_URL_TOKEN = "login-token"  # nosec
 
 
 class LoginTokenView(DjangoLoginView):
-    """Authenticate a user via a access token."""
+    """Authenticate a user via an access token."""
 
     redirect_field_name = REDIRECT_FIELD_NAME
 
