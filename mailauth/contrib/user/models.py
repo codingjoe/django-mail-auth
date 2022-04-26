@@ -113,15 +113,13 @@ class AbstractEmailUser(AbstractUser):
                     if commit:
                         self.save()
         """
+        signals.anonymize.send(sender=self.__class__, instance=self)
         self.email = None
         self.first_name = ""
         self.last_name = ""
         update_fields = ["email", "first_name", "last_name"]
         if commit:
             self.save(update_fields=update_fields)
-        signals.anonymize.send(
-            sender=self.__class__, instance=self, update_fields=tuple(update_fields)
-        )
         return update_fields
 
 

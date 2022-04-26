@@ -16,5 +16,4 @@ def test_anonymize(user):
         signal=anonymize,
         sender=user.__class__,
         instance=user,
-        update_fields=("email", "first_name", "last_name"),
     )
