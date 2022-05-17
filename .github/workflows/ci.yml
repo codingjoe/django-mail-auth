@@ -33,7 +33,7 @@ jobs:
     steps:
       - run: sudo apt install -y gettext
       - uses: actions/setup-python@v3
-      - uses: actions/setup-node@v3.1.1
+      - uses: actions/setup-node@v3.2.0
         with:
           node-version: 'lts/*'
       - uses: actions/checkout@v3
