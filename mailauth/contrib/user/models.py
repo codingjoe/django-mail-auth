@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -75,29 +74,12 @@ class AbstractEmailUser(AbstractUser):
             ("anonymize", "Can anonymize user"),
         ]
 
-    def _legacy_get_session_auth_hash(self):
-        # RemovedInDjango40Warning: pre-Django 3.1 hashes will be invalid.
-        key_salt = "mailauth.contrib.user.models.EmailUserManager.get_session_auth_hash"
-        if not self.session_salt:
-            raise ValueError("'session_salt' must be set")
-        return salted_hmac(key_salt, self.session_salt, algorithm="sha1").hexdigest()
-
     def get_session_auth_hash(self):
         """Return an HMAC of the :attr:`.session_salt` field."""
         key_salt = "mailauth.contrib.user.models.EmailUserManager.get_session_auth_hash"
         if not self.session_salt:
             raise ValueError("'session_salt' must be set")
-        algorithm = getattr(settings, "DEFAULT_HASHING_ALGORITHM", None)
-        if algorithm is None:
-            return salted_hmac(key_salt, self.session_salt).hexdigest()
-        return salted_hmac(
-            key_salt,
-            self.session_salt,
-            # RemovedInDjango40Warning: when the deprecation ends, replace
-            # with:
-            # algorithm='sha256',
-            algorithm=algorithm,
-        ).hexdigest()
+        return salted_hmac(key_salt, self.session_salt, algorithm="sha256").hexdigest()
 
     def anonymize(self, commit=True):
         """
