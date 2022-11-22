@@ -2,7 +2,7 @@
 Django Mail Auth
 ================
 
-|version| |docs| |ci| |coverage| |license|
+|version| |docs| |coverage| |license|
 
 .. figure:: sample.png
     :width: 425
@@ -115,8 +115,6 @@ That's it!
 
 .. |version| image:: https://img.shields.io/pypi/v/django-mail-auth.svg
    :target: https://pypi.python.org/pypi/django-mail-auth/
-.. |ci| image:: https://travis-ci.com/codingjoe/django-mail-auth.svg?branch=main
-   :target: https://travis-ci.com/codingjoe/django-mail-auth
 .. |coverage| image:: https://codecov.io/gh/codingjoe/django-mail-auth/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/codingjoe/django-mail-auth
 .. |license| image:: https://img.shields.io/badge/license-MIT-blue.svg
