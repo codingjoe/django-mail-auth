@@ -93,7 +93,7 @@ class EmailLoginForm(BaseLoginForm):
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
-        super(EmailLoginForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.field_name = get_user_model().get_email_field_name()
         model_field = get_user_model()._meta.get_field(self.field_name)
