@@ -16,7 +16,9 @@ Custom login forms need to inherit from :class:`.BaseLoginForm` and override
 the :meth:`save<.BaseLoginForm.save>` method.
 
 The following example is for a login SMS. This will require a
-custom user model with a unique ``phone_number`` field::
+custom user model with a unique ``phone_number`` field:
+
+.. code-block:: python
 
     from django import forms
     from django.contrib.auth import get_user_model
@@ -59,7 +61,9 @@ custom user model with a unique ``phone_number`` field::
 
 
 To add the new login form, simply add a new login view to your URL configuration with
-the custom form::
+the custom form:
+
+.. code-block:: python
 
     from django.urls import path
     from mailauth.views import LoginView

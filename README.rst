@@ -43,7 +43,9 @@ Run this command to install ``django-mail-auth``::
 Setup
 -----
 
-First add ``mailauth`` to you installed apps::
+First add ``mailauth`` to you installed apps:
+
+.. code-block:: python
 
     INSTALLED_APPS = [
         # Django's builtin apps…
@@ -64,7 +66,9 @@ First add ``mailauth`` to you installed apps::
 with token based authentication too.
 
 ``mailauth.contrib.user`` is optional and provides a new Django User model.
-The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting::
+The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting:
+
+.. code-block:: python
 
     # This setting should be either "EmailUser" or
     # any custom subclass of "AbstractEmailUser"
@@ -74,7 +78,9 @@ The new User model needs to be enabled via the ``AUTH_USER_MODEL`` setting::
     WAGTAILUSERS_PASSWORD_ENABLED = False
 
 
-Next you will need to add the new authentication backend::
+Next you will need to add the new authentication backend:
+
+.. code-block:: python
 
     AUTHENTICATION_BACKENDS = (
         # default, but now optional
@@ -89,7 +95,9 @@ Next you will need to add the new authentication backend::
 Django's ``ModelBackend`` is only needed, if you still want to support
 password based authentication. If you don't, simply remove it from the list.
 
-Last but not least, go to your URL root configuration ``urls.py`` and add the following::
+Last but not least, go to your URL root configuration ``urls.py`` and add the following:
+
+.. code-block:: python
 
     from django.urls import path
 
@@ -107,12 +115,12 @@ That's it!
 
 .. |version| image:: https://img.shields.io/pypi/v/django-mail-auth.svg
    :target: https://pypi.python.org/pypi/django-mail-auth/
-.. |ci| image:: https://travis-ci.com/codingjoe/django-mail-auth.svg?branch=master
+.. |ci| image:: https://travis-ci.com/codingjoe/django-mail-auth.svg?branch=main
    :target: https://travis-ci.com/codingjoe/django-mail-auth
-.. |coverage| image:: https://codecov.io/gh/codingjoe/django-mail-auth/branch/master/graph/badge.svg
+.. |coverage| image:: https://codecov.io/gh/codingjoe/django-mail-auth/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/codingjoe/django-mail-auth
 .. |license| image:: https://img.shields.io/badge/license-MIT-blue.svg
-   :target: :target: https://raw.githubusercontent.com/codingjoe/django-mail-auth/master/LICENSE
+   :target: :target: https://raw.githubusercontent.com/codingjoe/django-mail-auth/main/LICENSE
 .. |docs| image:: https://readthedocs.org/projects/django-mail-auth/badge/?version=latest
    :target: https://django-mail-auth.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
