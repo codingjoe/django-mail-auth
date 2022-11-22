@@ -1,0 +1,98 @@
+[build-system]
+requires = ["flit_core>=3.2", "flit_scm", "wheel"]
+build-backend = "flit_scm:buildapi"
+
+[project]
+name = "django-mail-auth"
+authors = [
+  { name = "Johannes Maron", email = "johannes@maron.family" },
+]
+readme = "README.rst"
+license = { file = "LICENSE" }
+keywords = [
+  "django",
+  "otp",
+  "email",
+  "authentication",
+  "login",
+  "2fa",
+  "passwordless",
+  "password",
+]
+dynamic = ["version", "description"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3 :: Only",
+  "Framework :: Django",
+  "Framework :: Django :: 4.0",
+  "Framework :: Django :: 4.1",
+  "Topic :: Internet",
+  "Topic :: Internet :: WWW/HTTP",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Software Development :: Testing",
+]
+requires-python = ">=3.9"
+dependencies = ["django>=4.0"]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "pytest-cov",
+  "pytest-django",
+]
+docs = [
+  "sphinx",
+]
+wagtail = [
+  "wagtail>=2.8",
+]
+postgres = [
+  "psycopg2-binary",
+]
+
+[project.urls]
+Project-URL = "https://github.com/codingjoe/django-mail-auth"
+Changelog = "https://github.com/codingjoe/django-mail-auth/releases"
+Source = "https://github.com/codingjoe/django-mail-auth"
+Documentation = "https://django-mail-auth.rtfd.io/"
+Issue-Tracker = "https://github.com/codingjoe/django-mail-auth/issues"
+
+[tool.flit.module]
+name = "mailauth"
+
+[tool.setuptools_scm]
+write_to = "mailauth/_version.py"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov --tb=short -rxs"
+testpaths = ["tests"]
+DJANGO_SETTINGS_MODULE = "tests.testapp.settings"
+
+[tool.coverage.run]
+source = ["mailauth"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.isort]
+atomic = true
+line_length = 88
+multi_line_output = 3
+force_grid_wrap = 0
+known_first_party = "mailauth, tests"
+include_trailing_comma = true
+use_parentheses = true
+default_section = "THIRDPARTY"
+combine_as_imports = true
+
+[tool.pydocstyle]
+add_ignore = "D1"

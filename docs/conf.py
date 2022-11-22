@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.abspath(".."))
 django.setup()
 
 project = "Django Mail Auth"
-copyright = "2019, Johannes Hoppe"
+copyright = "2022, Johannes Maron"
 release = get_distribution("django-mail-auth").version
 version = ".".join(release.split(".")[:2])
 
@@ -30,6 +30,16 @@ intersphinx_mapping = {
         "https://docs.djangoproject.com/en/stable/_objects/",
     ),
 }
+
+try:
+    import sphinxcontrib.spelling  # noqa
+except ImportError:
+    pass
+else:
+    extensions.append("sphinxcontrib.spelling")
+
+    spelling_word_list_filename = "spelling_wordlist.txt"
+    spelling_show_suggestions = True
 
 
 autodoc_default_options = {

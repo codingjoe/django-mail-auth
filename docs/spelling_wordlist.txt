@@ -1,0 +1,17 @@
+admin
+anonymize
+anonymized
+anonymization
+Auth
+boolean
+backend
+Django
+frontend
+mixin
+mixins
+namespace
+subclasses
+tuple
+tuples
+triple
+URL
