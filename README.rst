@@ -89,7 +89,7 @@ Next you will need to add the new authentication backend::
 Django's ``ModelBackend`` is only needed, if you still want to support
 password based authentication. If you don't, simply remove it from the list.
 
-Last but not least, go to your URL root config ``urls.py`` and add the following::
+Last but not least, go to your URL root configuration ``urls.py`` and add the following::
 
     from django.urls import path
 

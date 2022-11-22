@@ -4,29 +4,22 @@ Contributing
 
 To install the development requirements simply run::
 
-    python setup.py develop
+    python -m pip install -e '.[test]'
 
 To run test suite run::
 
-    python setup.py test
-
-... and to run the entire test suite, simply use tox::
-
-    pip install --upgrade tox
-    tox
+    python -m pytest
 
 To build the documentation run::
 
-    python setup.py build_sphinx
-    open docs/_build/html/index.html
-
+    python -m sphinx -W -b spelling docs docs/_build
 
 The sample app
 ==============
 
 To run a full example — e.g. to debug frontend code – you can run::
 
-    python setup.py develop
+    python -m pip install -e .
     python tests/testapp/manage.py migrate
     python tests/testapp/manage.py createsuperuser
     # You will be asked for the email address of your new superuser

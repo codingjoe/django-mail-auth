@@ -63,3 +63,4 @@ tests/local.py
 docs/_build/
 venv
 .python-version
+_version.py

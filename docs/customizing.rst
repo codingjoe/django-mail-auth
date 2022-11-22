@@ -15,7 +15,7 @@ Custom login form
 Custom login forms need to inherit from :class:`.BaseLoginForm` and override
 the :meth:`save<.BaseLoginForm.save>` method.
 
-The following example is for a login SMS via twilio. This will require a
+The following example is for a login SMS. This will require a
 custom user model with a unique ``phone_number`` field::
 
     from django import forms
@@ -58,7 +58,7 @@ custom user model with a unique ``phone_number`` field::
             )
 
 
-To add the new login form, simply add a new login view to your URL config with
+To add the new login form, simply add a new login view to your URL configuration with
 the custom form::
 
     from django.urls import path

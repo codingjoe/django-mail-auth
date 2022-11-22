@@ -53,12 +53,11 @@ class BaseLoginForm(forms.Form):
         Returns:
             dict:
                 A context dictionary including:
-
-                - site
-                - site_name
-                - token
-                - login_url
-                - user
+                - ``site``
+                - ``site_name``
+                - ``token``
+                - ``login_url``
+                - ``user``
 
         """
         token = self.get_token(user)
@@ -79,7 +78,7 @@ class BaseLoginForm(forms.Form):
         Called from the login view, if the form is valid.
 
         This method must be implemented by subclasses. This method
-        should trigger the login url to be sent to the user.
+        should trigger the login URL to be sent to the user.
         """
         raise NotImplementedError
 
