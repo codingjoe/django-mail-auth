@@ -90,12 +90,13 @@ class EmailLoginForm(BaseLoginForm):
     email_template_name = "registration/login_email.txt"
     html_email_template_name = "registration/login_email.html"
     from_email = None
+    field_name = None
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super().__init__(*args, **kwargs)
 
-        self.field_name = get_user_model().get_email_field_name()
+        self.field_name = self.field_name or get_user_model().get_email_field_name()
         model_field = get_user_model()._meta.get_field(self.field_name)
         field = model_field.formfield()
         field.required = True
