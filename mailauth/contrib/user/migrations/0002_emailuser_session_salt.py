@@ -6,7 +6,6 @@ import mailauth
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("mailauth_user", "0001_initial"),
     ]

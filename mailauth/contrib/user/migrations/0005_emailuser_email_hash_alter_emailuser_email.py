@@ -7,7 +7,6 @@ except ImportError:
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("mailauth_user", "0004_auto_20200812_0722"),
     ]
