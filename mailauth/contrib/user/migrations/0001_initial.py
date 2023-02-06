@@ -7,7 +7,6 @@ import mailauth.contrib.user.models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
