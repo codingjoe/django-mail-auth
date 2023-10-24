@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from . import signals
 
 try:
-    from django.contrib.postgres.fields import CIEmailField
+    from citext import CIEmailField
 except ImportError:
     from django.db.models import EmailField as CIEmailField
 
