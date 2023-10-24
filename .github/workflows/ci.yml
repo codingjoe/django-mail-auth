@@ -65,6 +65,10 @@ jobs:
           - "3.9"
           - "3.10"
           - "3.11"
+        django-version:
+          - "4.0"
+          - "4.1"
+          - "4.2"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
@@ -102,12 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.10" ]
-        django-version:
-          - "4.0"
-          - "4.1"
-        extras:
-          - postgres
+        python-version: [ "3.x" ]
     services:
       postgres:
         image: postgres
@@ -123,7 +122,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - uses: actions/checkout@v4
-      - run: python -m pip install Django~=${{ matrix.django-version }}.0 -e ".[test,${{ matrix.extras }}]"
+      - run: python -m pip install -e ".[test,postgres]"
       - run: python -m pytest
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}

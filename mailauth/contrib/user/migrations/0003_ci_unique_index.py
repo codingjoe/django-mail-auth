@@ -1,15 +1,14 @@
 from django.db import migrations
 
 try:
-    from django.contrib.postgres.fields import CIEmailField
+    from citext import CIEmailField, CITextExtension
 except ImportError:
+    CITextExtension = None
     CIEmailField = None
-else:
-    from django.contrib.postgres.operations import CITextExtension
 
 
 def _operations():
-    if CIEmailField:
+    if CITextExtension:
         yield CITextExtension()
         yield migrations.AlterField(
             model_name="emailuser",

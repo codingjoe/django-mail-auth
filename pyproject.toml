@@ -14,10 +14,7 @@ keywords = [
   "otp",
   "email",
   "authentication",
-  "login",
-  "2fa",
   "passwordless",
-  "password",
 ]
 dynamic = ["version", "description"]
 classifiers = [
@@ -34,13 +31,20 @@ classifiers = [
   "Framework :: Django",
   "Framework :: Django :: 4.0",
   "Framework :: Django :: 4.1",
+  "Framework :: Django :: 4.2",
+  "Framework :: Wagtail",
+  "Framework :: Wagtail :: 2",
+  "Framework :: Wagtail :: 3",
+  "Framework :: Wagtail :: 4",
   "Topic :: Internet",
   "Topic :: Internet :: WWW/HTTP",
   "Topic :: Software Development :: Quality Assurance",
   "Topic :: Software Development :: Testing",
 ]
 requires-python = ">=3.9"
-dependencies = ["django>=4.0"]
+dependencies = [
+  "django>=4.0"
+]
 
 [project.optional-dependencies]
 test = [
@@ -55,7 +59,7 @@ wagtail = [
   "wagtail>=2.8",
 ]
 postgres = [
-  "psycopg2-binary",
+  "django-citext",
 ]
 
 [project.urls]

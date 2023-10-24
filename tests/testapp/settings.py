@@ -52,7 +52,7 @@ else:
         "mailauth.contrib.wagtail",
         "wagtail.admin",
         "wagtail.users",
-        "wagtail.core",
+        "wagtail",
     ]
 
 AUTHENTICATION_BACKENDS = ("mailauth.backends.MailAuthBackend",)

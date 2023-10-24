@@ -1,7 +1,7 @@
 from django.db import migrations, models
 
 try:
-    from django.contrib.postgres.fields import CIEmailField
+    from citext import CIEmailField
 except ImportError:
     CIEmailField = models.EmailField
 
