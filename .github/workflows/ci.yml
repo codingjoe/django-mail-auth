@@ -76,7 +76,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e '.[test]'
       - run: python -m pytest
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           flags: ${{ matrix.python-version }}
 
@@ -96,7 +96,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e ".[test,${{ matrix.extras }}]"
       - run: python -m pytest
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           flags: ${{ matrix.extras }}
 
@@ -127,7 +127,7 @@ jobs:
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB: pg
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           flags: ${{ matrix.extras }}
 
