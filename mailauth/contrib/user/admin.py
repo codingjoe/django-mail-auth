@@ -32,9 +32,11 @@ class AnonymizableAdminMixin:
             )
             % {
                 "count": count,
-                "obj_name": self.model._meta.verbose_name_plural
-                if count > 1
-                else self.model._meta.verbose_name,
+                "obj_name": (
+                    self.model._meta.verbose_name_plural
+                    if count > 1
+                    else self.model._meta.verbose_name
+                ),
             },
             fail_silently=True,
         )
