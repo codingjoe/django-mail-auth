@@ -62,42 +62,47 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - "3.9"
           - "3.10"
           - "3.11"
+          - "3.12"
         django-version:
-          - "4.0"
-          - "4.1"
           - "4.2"
+          - "5.0"
+          - "5.1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -e '.[test]'
+      - run: python -m pip install Django~=${{ matrix.django-version }}.0
       - run: python -m pytest
       - uses: codecov/codecov-action@v4
         with:
-          flags: ${{ matrix.python-version }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: python-${{ matrix.python-version }}
 
-  contrib:
+  wagtail:
     needs: [ lint, dist, docs ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        extras:
-          - wagtail
         python-version: [ "3.x" ]
+        wagtail-version:
+          - "5.2.0"
+          - "6.0.0"
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install -e ".[test,${{ matrix.extras }}]"
+      - run: python -m pip install -e ".[test,wagtail]"
+      - run: python -m pip install wagtail~=${{ matrix.wagtail-version }}
       - run: python -m pytest
       - uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.extras }}
 
 
@@ -123,17 +128,24 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - uses: actions/checkout@v4
       - run: python -m pip install -e ".[test,postgres]"
+      - run: psql template1 -c "CREATE EXTENSION citext;"
+        env:
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGUSER: django
+          PGPASSWORD: django
       - run: python -m pytest
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB: pg
       - uses: codecov/codecov-action@v4
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.extras }}
 
   analyze:
     name: CodeQL
-    needs: [ SQLite, contrib, PostgreSQL ]
+    needs: [ SQLite, wagtail, PostgreSQL ]
     runs-on: ubuntu-latest
     permissions:
       actions: read

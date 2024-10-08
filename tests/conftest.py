@@ -1,3 +1,5 @@
+import zoneinfo
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -18,7 +20,7 @@ def user(db):
     return get_user_model().objects.create_user(
         pk=1337,
         email="spiderman@avengers.com",
-        last_login=timezone.datetime(2002, 5, 3, tzinfo=timezone.utc),
+        last_login=timezone.datetime(2002, 5, 3, tzinfo=zoneinfo.ZoneInfo("UTC")),
     )
 
 
@@ -28,7 +30,7 @@ def admin_user(db):
     return get_user_model().objects.create_user(
         pk=1337,
         email="spiderman@avengers.com",
-        last_login=timezone.datetime(2002, 5, 3, tzinfo=timezone.utc),
+        last_login=timezone.datetime(2002, 5, 3, tzinfo=zoneinfo.ZoneInfo("UTC")),
         is_superuser=True,
     )
 

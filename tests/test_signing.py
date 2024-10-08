@@ -1,3 +1,5 @@
+import zoneinfo
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.core.signing import SignatureExpired
@@ -14,7 +16,7 @@ class TestUserSigner:
         user = get_user_model().objects.create_user(
             pk=1337,
             email="spiderman@avengers.com",
-            last_login=timezone.datetime(2002, 5, 3, tzinfo=timezone.utc),
+            last_login=timezone.datetime(2002, 5, 3, tzinfo=zoneinfo.ZoneInfo("UTC")),
         )
         assert user == signer.unsign(signature)
 
@@ -29,7 +31,7 @@ class TestUserSigner:
             pk=1337,
             email="spiderman@avengers.com",
             # later date, that does not match the signature
-            last_login=timezone.datetime(2012, 7, 3, tzinfo=timezone.utc),
+            last_login=timezone.datetime(2012, 7, 3, tzinfo=zoneinfo.ZoneInfo("UTC")),
         )
         with pytest.raises(
             SignatureExpired,
@@ -42,7 +44,7 @@ class TestUserSigner:
             pk=1337,
             email="spiderman@avengers.com",
             # later date, that does not match the signature (token was used)
-            last_login=timezone.datetime(2012, 7, 3, tzinfo=timezone.utc),
+            last_login=timezone.datetime(2012, 7, 3, tzinfo=zoneinfo.ZoneInfo("UTC")),
         )
         assert user == signer.unsign(signature, single_use=False)
         # test a second time to make sure token can be used more than one time
@@ -54,7 +56,7 @@ class TestUserSigner:
             signer.unsign(signature, single_use=True)
 
     def test_to_timestamp(self):
-        value = timezone.datetime(2002, 5, 3, tzinfo=timezone.utc)
+        value = timezone.datetime(2002, 5, 3, tzinfo=zoneinfo.ZoneInfo("UTC"))
         base62_value = signing.UserSigner.to_timestamp(value=value)
         assert base62_value == "173QUS"
 
