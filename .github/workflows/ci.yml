@@ -77,7 +77,7 @@ jobs:
       - run: python -m pip install -e '.[test]'
       - run: python -m pip install Django~=${{ matrix.django-version }}.0
       - run: python -m pytest
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: python-${{ matrix.python-version }}
@@ -100,7 +100,7 @@ jobs:
       - run: python -m pip install -e ".[test,wagtail]"
       - run: python -m pip install wagtail~=${{ matrix.wagtail-version }}
       - run: python -m pytest
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.extras }}
@@ -138,7 +138,7 @@ jobs:
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB: pg
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.extras }}
