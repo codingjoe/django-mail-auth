@@ -103,6 +103,7 @@ include_trailing_comma = true
 use_parentheses = true
 default_section = "THIRDPARTY"
 combine_as_imports = true
+skip = ["mailauth/_version.py"]
 
 [tool.pydocstyle]
 add_ignore = "D1"
