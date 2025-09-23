@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group, Permission
-from django.utils.translation import gettext_lazy as _, ngettext
+from django.utils.translation import (
+    gettext_lazy as _,
+    ngettext,
+)
 
 from . import models
 

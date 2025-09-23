@@ -35,7 +35,7 @@ class BaseLoginForm(forms.Form):
             path=reverse("mailauth:login-token", kwargs={"token": token}),
         )
         if next is not None:
-            url += "?next=%s" % urllib.parse.quote(next)
+            url += f"?next={urllib.parse.quote(next)}"
         return url
 
     def get_token(self, user):
@@ -107,7 +107,7 @@ class EmailLoginForm(BaseLoginForm):
         if connection.vendor == "postgresql":
             query = {self.field_name: email}
         else:
-            query = {"%s__iexact" % self.field_name: email}
+            query = {f"{self.field_name}__iexact": email}
         return get_user_model()._default_manager.filter(**query).iterator()
 
     def save(self):

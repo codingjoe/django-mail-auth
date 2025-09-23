@@ -60,7 +60,7 @@ class TestMailAuthBackend:
         backend = MailAuthBackend()
         backend.signer = signer
         with caplog.at_level(logging.ERROR):
-            user = backend.authenticate(None, token="not/a/valid-token")
+            user = backend.authenticate(None, token="not/a/valid-token")  # noqa: S106
         assert user is None
         assert caplog.records[-1].levelname == "ERROR"
         assert (
