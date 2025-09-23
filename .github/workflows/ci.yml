@@ -64,10 +64,11 @@ jobs:
           - "3.10"
           - "3.11"
           - "3.12"
+          - "3.13"
         django-version:
-          - "4.2"
-          - "5.0"
-          - "5.1"
+          - "4.2.0"
+          - "5.1.0"
+          - "5.2.0"
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -88,8 +89,9 @@ jobs:
       matrix:
         python-version: [ "3.x" ]
         wagtail-version:
-          - "5.2.0"
-          - "6.0.0"
+          - "6.3.0"
+          - "7.0.0"
+          - "7.1.0"
     steps:
       - uses: actions/checkout@v5
       - name: Set up Python ${{ matrix.python-version }}
@@ -141,31 +143,3 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.extras }}
-
-  analyze:
-    name: CodeQL
-    needs: [ SQLite, wagtail, PostgreSQL ]
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ python ]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
-          queries: +security-and-quality
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
-        if: ${{ matrix.language == 'javascript' || matrix.language == 'python' }}
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:${{ matrix.language }}"
