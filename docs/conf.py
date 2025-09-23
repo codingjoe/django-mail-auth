@@ -33,7 +33,7 @@ intersphinx_mapping = {
 }
 
 try:
-    import sphinxcontrib.spelling  # noqa
+    import sphinxcontrib.spelling  # noqa: F401
 except ImportError:
     pass
 else:

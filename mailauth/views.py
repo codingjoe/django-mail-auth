@@ -43,7 +43,7 @@ class LoginView(DjangoLoginView):
         }
 
 
-INTERNAL_LOGIN_URL_TOKEN = "login-token"  # nosec
+INTERNAL_LOGIN_URL_TOKEN = "login-token"  # noqa: S105
 
 
 class LoginTokenView(DjangoLoginView):
@@ -61,10 +61,9 @@ class LoginTokenView(DjangoLoginView):
         user = authenticate(request, token=token)
         if user is None:
             raise PermissionDenied
-        else:
-            login(self.request, user=user)
-            # Remove token from the HTTP Referer header
-            self.request.path.replace(token, INTERNAL_LOGIN_URL_TOKEN)
+        login(self.request, user=user)
+        # Remove token from the HTTP Referer header
+        self.request.path.replace(token, INTERNAL_LOGIN_URL_TOKEN)
 
         return response.HttpResponseRedirect(self.get_success_url())
 

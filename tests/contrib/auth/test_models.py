@@ -17,7 +17,7 @@ class TestAbstractEmailUser:
     def test_get_session_auth_hash__value_error(self, db):
         user = EmailUser(email="spiderman@avengers.com", session_salt=None)
 
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ValueError) as e:  # noqa: PT011
             user.get_session_auth_hash()
 
         assert "'session_salt' must be set" in str(e.value)

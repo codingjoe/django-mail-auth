@@ -52,11 +52,9 @@ test = [
   "pytest-django",
 ]
 lint = [
-  "bandit==1.8.6",
-  "black==25.1.0",
-  "flake8==7.3.0",
-  "isort==6.0.1",
-  "pydocstyle[toml]==6.3.0",
+  "ruff==0.13.1",
+  "pyupgrade==3.20.0",
+  "django-upgrade==1.28.0",
 ]
 docs = [
   "sphinx",
@@ -93,17 +91,50 @@ source = ["mailauth"]
 [tool.coverage.report]
 show_missing = true
 
-[tool.isort]
-atomic = true
-line_length = 88
-multi_line_output = 3
-force_grid_wrap = 0
-known_first_party = "mailauth, tests"
-include_trailing_comma = true
-use_parentheses = true
-default_section = "THIRDPARTY"
-combine_as_imports = true
-skip = ["mailauth/_version.py"]
+[tool.ruff]
+src = ["mailauth", "tests"]
+line-length = 88
+indent-width = 4
 
-[tool.pydocstyle]
-add_ignore = "D1"
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+preview = true
+
+[tool.ruff.lint]
+select = [
+    "D", # pydocstyle
+    "E", # pycodestyle errors
+    "EXE", # flake8-executable
+    "F", # pyflakes
+    "I", # isort
+    "PGH", # pygrep-hooks
+    "PT", # flake8-pytest-style
+    "RET", # flake8-return
+    "S", # flake8-bandit
+    "SIM", # flake8-simplify
+    "UP", # pyupgrade
+    "W", # pycodestyle warnings
+]
+
+ignore = ["D1"]
+
+[tool.ruff.lint.per-file-ignores]
+"*/test*.py" = ["S101", "PLR2004"]
+"*/migrations/*.py" = ["E501"]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+split-on-trailing-comma = true
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+force-wrap-aliases = true
+known-first-party = ["mailauth", "tests"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"

@@ -11,14 +11,12 @@ class AdminLoginView(LoginView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(
-            {
-                **self.site.each_context(self.request),
-                "title": _("Log in"),
-                "app_path": self.request.get_full_path(),
-                "username": self.request.user.get_username(),
-            }
-        )
+        context.update({
+            **self.site.each_context(self.request),
+            "title": _("Log in"),
+            "app_path": self.request.get_full_path(),
+            "username": self.request.user.get_username(),
+        })
         if (
             REDIRECT_FIELD_NAME not in self.request.GET
             and REDIRECT_FIELD_NAME not in self.request.POST

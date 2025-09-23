@@ -13,11 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         lint-command:
-          - bandit -r . -x ./tests
-          - black --check --diff .
-          - flake8 .
-          - isort --check-only --diff .
-          - pydocstyle .
+          - ruff format --check .
+          - ruff check --output-format=github .
+          - django-upgrade --check `git ls-files | grep .py`
+          - pyupgrade `git ls-files | grep .py`
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
