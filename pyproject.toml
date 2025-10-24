@@ -55,7 +55,7 @@ test = [
 lint = [
   "ruff==0.14.1",
   "pyupgrade==3.21.0",
-  "django-upgrade==1.29.0",
+  "django-upgrade==1.29.1",
 ]
 docs = [
   "sphinx",
