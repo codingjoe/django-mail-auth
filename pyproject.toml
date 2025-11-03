@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core>=3.2", "flit_scm", "wheel"]
-build-backend = "flit_scm:buildapi"
+requires = ["flit-gettext[scm]", "wheel"]
+build-backend = "flit_gettext.scm"
 
 [project]
 name = "django-mail-auth"

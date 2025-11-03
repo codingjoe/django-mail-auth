@@ -12,6 +12,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.x"
+      - run: sudo apt-get update && sudo apt-get install -y gettext
       - name: Install Python dependencies
         run: python -m pip install --upgrade pip build wheel twine readme-renderer
       - run: python -m build --sdist --wheel
@@ -26,7 +27,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
-      - run: sudo apt install -y python3-enchant
+      - run: sudo apt-get update && sudo apt-get install -y gettext python3-enchant
       - run: python -m pip install sphinxcontrib-spelling
       - run: python -m pip install -e '.[docs]'
       - run: python -m sphinx -W -b spelling docs docs/_build
@@ -49,6 +50,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
+      - run: sudo apt-get update && sudo apt-get install -y gettext
       - run: python -m pip install -e '.[test]'
       - run: python -m pip install Django~=${{ matrix.django-version }}.0
       - run: python -m pytest
@@ -72,6 +74,7 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
+      - run: sudo apt-get update && sudo apt-get install -y gettext
       - run: python -m pip install -e ".[test,wagtail]"
       - run: python -m pip install wagtail~=${{ matrix.wagtail-version }}
       - run: python -m pytest
@@ -100,6 +103,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - uses: actions/checkout@v5
+      - run: sudo apt-get update && sudo apt-get install -y gettext
       - run: python -m pip install -e ".[test,postgres]"
       - run: psql template1 -c "CREATE EXTENSION citext;"
         env:
