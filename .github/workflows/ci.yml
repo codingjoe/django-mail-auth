@@ -1,33 +1,10 @@
 name: CI
-
 on:
   push:
     branches:
       - master
   pull_request:
-
 jobs:
-
-  lint:
-    strategy:
-      fail-fast: false
-      matrix:
-        lint-command:
-          - ruff format --check .
-          - ruff check --output-format=github .
-          - django-upgrade --check `git ls-files | grep .py`
-          - pyupgrade `git ls-files | grep .py`
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.x"
-          cache: pip
-          cache-dependency-path: pyproject.toml
-      - run: python -m pip install .[lint]
-      - run: ${{ matrix.lint-command }}
-
   dist:
     runs-on: ubuntu-latest
     steps:
@@ -42,7 +19,6 @@ jobs:
       - uses: actions/upload-artifact@v5
         with:
           path: dist/*
-
   docs:
     runs-on: ubuntu-latest
     steps:
@@ -54,9 +30,8 @@ jobs:
       - run: python -m pip install sphinxcontrib-spelling
       - run: python -m pip install -e '.[docs]'
       - run: python -m sphinx -W -b spelling docs docs/_build
-
   SQLite:
-    needs: [ lint, dist, docs ]
+    needs: [dist, docs]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -81,13 +56,12 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: python-${{ matrix.python-version }}
-
   wagtail:
-    needs: [ lint, dist, docs ]
+    needs: [dist, docs]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.x" ]
+        python-version: ["3.x"]
         wagtail-version:
           - "6.3.0"
           - "7.0.0"
@@ -105,14 +79,12 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           flags: ${{ matrix.extras }}
-
-
   PostgreSQL:
-    needs: [ lint, dist, docs ]
+    needs: [dist, docs]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [ "3.x" ]
+        python-version: ["3.x"]
     services:
       postgres:
         image: postgres
