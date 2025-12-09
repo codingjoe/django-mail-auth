@@ -105,9 +105,6 @@ class AbstractEmailUser(AbstractUser):
         return update_fields
 
 
-delattr(AbstractEmailUser, "password")
-
-
 class EmailUser(AbstractEmailUser):
     class Meta(AbstractEmailUser.Meta):
         swappable = "AUTH_USER_MODEL"

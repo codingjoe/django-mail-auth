@@ -41,10 +41,18 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+          - "3.14"
         django-version:
-          - "4.2.0"
-          - "5.1.0"
-          - "5.2.0"
+          - "4.2"
+          - "5.2"
+          - "6.0"
+        exclude:
+          - python-version: "3.14"
+            django-version: "4.2"
+          - python-version: "3.10"
+            django-version: "6.0"
+          - python-version: "3.11"
+            django-version: "6.0"
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
@@ -65,9 +73,10 @@ jobs:
       matrix:
         python-version: ["3.x"]
         wagtail-version:
-          - "6.3.0"
-          - "7.0.0"
-          - "7.1.0"
+          - "6.3"
+          - "7.0"
+          - "7.1"
+          - "7.2"
     steps:
       - uses: actions/checkout@v6
       - name: Set up Python ${{ matrix.python-version }}
@@ -76,7 +85,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: sudo apt-get update && sudo apt-get install -y gettext
       - run: python -m pip install -e ".[test,wagtail]"
-      - run: python -m pip install wagtail~=${{ matrix.wagtail-version }}
+      - run: python -m pip install wagtail~=${{ matrix.wagtail-version }}.0
       - run: python -m pytest
       - uses: codecov/codecov-action@v5
         with:

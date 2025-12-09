@@ -1,5 +1,4 @@
 import pytest
-from django.core.exceptions import FieldDoesNotExist
 
 from mailauth.contrib.user.models import EmailUser
 
@@ -30,8 +29,7 @@ class TestAbstractEmailUser:
 
     def test_password_field(self):
         user = EmailUser(email="spiderman@avengers.com")
-        with pytest.raises(FieldDoesNotExist):
-            assert user.password
+        assert user.password is None
 
 
 class TestEmailUserManager:
