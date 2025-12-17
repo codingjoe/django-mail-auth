@@ -9,14 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.x"
       - run: sudo apt-get update && sudo apt-get install -y gettext
-      - name: Install Python dependencies
-        run: python -m pip install --upgrade pip build wheel twine readme-renderer
-      - run: python -m build --sdist --wheel
-      - run: python -m twine check dist/*
+      - uses: astral-sh/setup-uv@v7
+      - run: uvx --from build pyproject-build --sdist --wheel
+      - run: uvx twine check dist/*
       - uses: actions/upload-artifact@v6
         with:
           path: dist/*
@@ -24,12 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-        with:
-          python-version: "3.11"
       - run: sudo apt-get update && sudo apt-get install -y gettext
-      - run: python -m pip install -e '.[docs]'
-      - run: python -m mkdocs build --strict
+      - uses: astral-sh/setup-uv@v7
+      - run: uv run mkdocs build --strict
   SQLite:
     needs: [dist, docs]
     runs-on: ubuntu-latest
@@ -54,13 +47,11 @@ jobs:
             django-version: "6.0"
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - run: sudo apt-get update && sudo apt-get install -y gettext
+      - uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
-      - run: sudo apt-get update && sudo apt-get install -y gettext
-      - run: python -m pip install -e '.[test]'
-      - run: python -m pip install Django~=${{ matrix.django-version }}.0
-      - run: python -m pytest
+      - run: uv run --with django~=${{ matrix.django-version }}.0 pytest
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -70,7 +61,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.x"]
         wagtail-version:
           - "6.3"
           - "7.0"
@@ -78,14 +68,9 @@ jobs:
           - "7.2"
     steps:
       - uses: actions/checkout@v6
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
       - run: sudo apt-get update && sudo apt-get install -y gettext
-      - run: python -m pip install -e ".[test,wagtail]"
-      - run: python -m pip install wagtail~=${{ matrix.wagtail-version }}.0
-      - run: python -m pytest
+      - uses: astral-sh/setup-uv@v7
+      - run: uv run --extra wagtail --with wagtail~=${{ matrix.wagtail-version }}.0 --with django~=5.2.0 pytest
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -93,9 +78,6 @@ jobs:
   PostgreSQL:
     needs: [dist, docs]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.x"]
     services:
       postgres:
         image: postgres
@@ -106,20 +88,16 @@ jobs:
           - 5432/tcp
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python-version }}
       - uses: actions/checkout@v6
       - run: sudo apt-get update && sudo apt-get install -y gettext
-      - run: python -m pip install -e ".[test,postgres]"
       - run: psql template1 -c "CREATE EXTENSION citext;"
         env:
           PGHOST: localhost
           PGPORT: ${{ job.services.postgres.ports[5432] }}
           PGUSER: django
           PGPASSWORD: django
-      - run: python -m pytest
+      - uses: astral-sh/setup-uv@v7
+      - run: uv run --extra postgres pytest
         env:
           DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB: pg

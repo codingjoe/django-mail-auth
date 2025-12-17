@@ -60,6 +60,9 @@ target/
 # mkdocs documentation
 /site/
 
+# UV
+uv.lock
+
 tests/local.py
 docs/_build/
 venv
