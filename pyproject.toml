@@ -48,6 +48,18 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+wagtail = [
+  "wagtail>=6.3",
+]
+postgres = [
+  "django-citext",
+]
+
+[dependency-groups]
+dev = [
+  { include-group = "test" },
+  { include-group = "docs" },
+]
 test = [
   "pytest",
   "pytest-cov",
@@ -59,12 +71,6 @@ docs = [
   "mkdocs-material",
   "markdown-callouts",
   "Pygments",
-]
-wagtail = [
-  "wagtail>=6.3",
-]
-postgres = [
-  "django-citext",
 ]
 
 [project.urls]

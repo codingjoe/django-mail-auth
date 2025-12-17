@@ -8,11 +8,11 @@ build:
     python: "3"
   apt_packages:
     - gettext
-python:
-  install:
-    - method: pip
-      path: .
-      extra_requirements:
-        - docs
+  jobs:
+    install:
+      - curl -LsSf https://astral.sh/uv/install.sh | sh
+    build:
+      html:
+        - $HOME/.local/bin/uv run mkdocs build --site-dir $READTHEDOCS_OUTPUT/html
 mkdocs:
   configuration: mkdocs.yml
