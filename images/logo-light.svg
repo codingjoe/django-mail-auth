@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="320" font-family="Segoe UI, system-ui, sans-serif" viewBox="0 0 1280 640">
+  <circle cx="260" cy="320" r="200" fill="#092e20"/>
+  <path fill="none" stroke="#f1fff7" stroke-linecap="round" stroke-linejoin="round" stroke-width="24" d="M249 402h-57.6c-13.44 0-20.16 0-25.296-2.616a24 24 0 0 1-10.488-10.488C153 383.76 153 377.04 153 363.6v-91.2c0-13.44 0-20.16 2.616-25.296a24 24 0 0 1 10.488-10.488C171.24 234 177.96 234 191.4 234h139.2c13.44 0 20.16 0 25.296 2.616a24 24 0 0 1 10.488 10.488C369 252.24 369 258.96 369 272.4v35.976m-4.716-35.232L303.6 313.596c-15.396 10.272-23.1 15.408-31.416 17.4a48 48 0 0 1-22.368 0c-8.328-2.004-16.02-7.128-31.416-17.4L154.764 271.2M369 356.004h-4.5c-12.288 0-23.004-4.98-31.5-14.004-8.496 9.024-19.2 14.004-31.5 14.004H297v14.76c0 26.58 15.3 48.912 36 55.236 20.7-6.324 36-28.656 36-55.224z"/>
+  <text x="243" y="90" fill="#092e20" font-size="64" font-weight="bold" transform="matrix(1.6 0 0 1.6 120 120)">
+    Django
+  </text>
+  <text x="240" y="174" font-size="92" font-weight="bold" transform="matrix(1.6 0 0 1.6 120 120)">
+    MailAuth
+  </text>
+  <text x="244" y="210" font-size="20" font-style="italic" transform="matrix(1.6 0 0 1.6 120 120)">
+    Secure login links; no passwords required!
+  </text>
+</svg>

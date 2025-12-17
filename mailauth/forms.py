@@ -1,5 +1,9 @@
+from __future__ import annotations
+
+import typing
 import urllib
 
+import django
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.sites.shortcuts import get_current_site
@@ -14,17 +18,19 @@ from mailauth.backends import MailAuthBackend
 class BaseLoginForm(forms.Form):
     next = forms.CharField(widget=forms.HiddenInput, required=False)
 
-    def get_login_url(self, request, token, next=None):
+    def get_login_url(
+        self, request: django.http.request.HttpRequest, token: str, next: str = None
+    ) -> str:
         """
         Return user login URL including the access token.
 
         Args:
-            request (django.http.request.HttpRequest): Current request.
-            token (str): The user specific authentication token.
-            next (str): The path the user should be forwarded to after login.
+            request: Current request.
+            token: The user specific authentication token.
+            next: The path the user should be forwarded to after login.
 
         Returns:
-            str: User login URL including the access token.
+            User login URL including the access token.
 
         """
         protocol = "https" if request.is_secure() else "http"
@@ -38,26 +44,29 @@ class BaseLoginForm(forms.Form):
             url += f"?next={urllib.parse.quote(next)}"
         return url
 
-    def get_token(self, user):
+    def get_token(self, user: django.contrib.auth.base_user.AbstractBaseUser) -> str:
         """Return the access token."""
         return MailAuthBackend.get_token(user=user)
 
-    def get_mail_context(self, request, user):
+    def get_mail_context(
+        self,
+        request: django.http.request.HttpRequest,
+        user: django.contrib.auth.base_user.AbstractBaseUser,
+    ) -> dict[str, typing.Any]:
         """
         Return the context for a message template render.
 
         Args:
-            request (django.http.request.HttpRequest): Current request.
+            request: Current request.
             user: The user requesting a login message.
 
         Returns:
-            dict:
-                A context dictionary including:
-                - ``site``
-                - ``site_name``
-                - ``token``
-                - ``login_url``
-                - ``user``
+            A context dictionary including:
+            - ``site``
+            - ``site_name``
+            - ``token``
+            - ``login_url``
+            - ``user``
 
         """
         token = self.get_token(user)

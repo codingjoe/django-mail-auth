@@ -27,7 +27,6 @@ repos:
       - id: mdformat
         additional_dependencies:
           - mdformat-ruff
-          - mdformat-ruff
           - mdformat-footnote
           - mdformat-gfm
           - mdformat-gfm-alerts
