@@ -7,7 +7,7 @@ name = "django-mail-auth"
 authors = [
   { name = "Johannes Maron", email = "johannes@maron.family" },
 ]
-readme = "README.rst"
+readme = "README.md"
 license = { file = "LICENSE" }
 keywords = [
   "django",
@@ -54,7 +54,11 @@ test = [
   "pytest-django",
 ]
 docs = [
-  "sphinx",
+  "mkdocs",
+  "mkdocstrings[python]>=0.18",
+  "mkdocs-material",
+  "markdown-callouts",
+  "Pygments",
 ]
 wagtail = [
   "wagtail>=6.3",

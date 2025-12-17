@@ -1,0 +1,24 @@
+site_name: Django MailAuth
+site_url: https://django-mailauth.codingjoe.dev
+repo_url: https://github.com/codingjoe/django-mail-auth
+plugins:
+  - autorefs
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          inventories:
+            - https://docs.python.org/3/objects.inv
+            - https://docs.djangoproject.com/en/stable/objects.inv
+theme:
+  name: material
+  features:
+    - search.suggest
+    - search.share
+    - content.code.select
+markdown_extensions:
+  - github-callouts
+  - pymdownx.highlight:
+      use_pygments: true
+  - pymdownx.superfences
