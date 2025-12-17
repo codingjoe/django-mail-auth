@@ -70,7 +70,7 @@ jobs:
       - uses: actions/checkout@v6
       - run: sudo apt-get update && sudo apt-get install -y gettext
       - uses: astral-sh/setup-uv@v7
-      - run: uv run --extra wagtail --with wagtail~=${{ matrix.wagtail-version }}.0 pytest
+      - run: uv run --extra wagtail --with wagtail~=${{ matrix.wagtail-version }}.0 --with django~=5.2.0 pytest
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
