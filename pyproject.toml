@@ -53,6 +53,7 @@ wagtail = [
 ]
 postgres = [
   "django-citext",
+  "psycopg",
 ]
 
 [dependency-groups]
