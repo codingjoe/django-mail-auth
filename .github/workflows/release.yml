@@ -3,7 +3,16 @@ on:
   release:
     types: [published]
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
+  gh-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y gettext
+      - uses: astral-sh/setup-uv@v7
+      - run: uv run mkdocs gh-deploy --force
   pypi-build:
     runs-on: ubuntu-latest
     steps:
