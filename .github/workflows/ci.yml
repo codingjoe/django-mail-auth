@@ -61,7 +61,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.x"]
         wagtail-version:
           - "6.3"
           - "7.0"
@@ -71,9 +70,7 @@ jobs:
       - uses: actions/checkout@v6
       - run: sudo apt-get update && sudo apt-get install -y gettext
       - uses: astral-sh/setup-uv@v7
-        with:
-          python-version: ${{ matrix.python-version }}
-      - run: uv run --extra wagtail --with  wagtail~=${{ matrix.wagtail-version }}.0 pytest
+      - run: uv run --extra wagtail --with wagtail~=${{ matrix.wagtail-version }}.0 pytest
       - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
