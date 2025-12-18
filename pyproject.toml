@@ -92,7 +92,7 @@ write_to = "mailauth/_version.py"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--cov --tb=short -rxs"
+addopts = "--cov --cov-report=xml --cov-report=term --tb=short -rxs"
 testpaths = ["tests"]
 DJANGO_SETTINGS_MODULE = "tests.testapp.settings"
 
@@ -101,6 +101,7 @@ source = ["mailauth"]
 
 [tool.coverage.report]
 show_missing = true
+skip_covered = true
 
 [tool.ruff]
 src = ["mailauth", "tests"]
