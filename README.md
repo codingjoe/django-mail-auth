@@ -24,7 +24,7 @@ Django Mail Auth features:
 - drop in Wagtail login replacement
 - extendable SMS support
 
-<img src="sample.png" alt="screenshot from a login form" width="425px">
+<img src="https://github.com/codingjoe/django-mail-auth/raw/main/sample.png" alt="screenshot from a login form" width="425px">
 
 This project was inspired by:
 
