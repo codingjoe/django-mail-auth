@@ -68,7 +68,7 @@ test = [
 ]
 docs = [
   "mkdocs",
-  "mkdocstrings[python]>=1.0.3",
+  "mkdocstrings[python]>=1.0.4",
   "mkdocs-material",
   "markdown-callouts",
   "Pygments",
