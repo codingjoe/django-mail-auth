@@ -40,8 +40,14 @@ This project was inspired by:
 Run this command to install `django-mail-auth`:
 
 ```
-python3 -m pip install django-mail-auth[wagtail]
+python3 -m pip install django-mail-auth
 ```
+
+> [!IMPORTANT]
+> When using PostgreSQL, install the optional postgres dependencies with
+> `python3 -m pip install django-mail-auth[postgres]` to enable `django-citext`.
+> Without the `citext` extension, django-mail-auth falls back to `__iexact`
+> lookups and emits a runtime warning.
 
 ## Setup
 

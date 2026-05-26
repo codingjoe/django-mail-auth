@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import typing
 import urllib
+import warnings
 
 import django
 from django import forms
@@ -113,11 +114,32 @@ class EmailLoginForm(BaseLoginForm):
         self.fields[self.field_name] = field
 
     def get_users(self, email=None):
-        if connection.vendor == "postgresql":
+        if (
+            connection.vendor == "postgresql"
+            and self._postgres_has_citext_extension()
+        ):
             query = {self.field_name: email}
         else:
+            if connection.vendor == "postgresql":
+                warnings.warn(
+                    (
+                        "PostgreSQL CITEXT extension not detected. "
+                        "Falling back to case-insensitive __iexact lookups. "
+                        "Install django-mail-auth[postgres] to enable CITEXT support."
+                    ),
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
             query = {f"{self.field_name}__iexact": email}
         return get_user_model()._default_manager.filter(**query).iterator()
+
+    def _postgres_has_citext_extension(self):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT 1 FROM pg_extension WHERE extname = %s LIMIT 1;",
+                ["citext"],
+            )
+            return cursor.fetchone() is not None
 
     def save(self):
         """

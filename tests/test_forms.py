@@ -1,4 +1,7 @@
+import warnings
+
 import pytest
+from django.contrib.auth import get_user_model
 from django.core import mail
 
 from mailauth.forms import BaseLoginForm, EmailLoginForm
@@ -38,3 +41,81 @@ class TestEmailLoginForm:
         assert list(EmailLoginForm(request=None).get_users("spiderman@avengers.com"))
         assert list(EmailLoginForm(request=None).get_users("SpiderMan@Avengers.com"))
         assert not list(EmailLoginForm(request=None).get_users("SpiderMan@dc.com"))
+
+    def test_get_users__postgres_with_citext(self, monkeypatch):
+        class DummyCursor:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args, **kwargs):
+                return False
+
+            def execute(self, *args, **kwargs):
+                return None
+
+            def fetchone(self):
+                return (1,)
+
+        class DummyConnection:
+            vendor = "postgresql"
+
+            def cursor(self):
+                return DummyCursor()
+
+        class DummyQuerySet:
+            def iterator(self):
+                return iter(())
+
+        captured = {}
+
+        def fake_filter(**kwargs):
+            captured.update(kwargs)
+            return DummyQuerySet()
+
+        monkeypatch.setattr("mailauth.forms.connection", DummyConnection())
+        monkeypatch.setattr(get_user_model()._default_manager, "filter", fake_filter)
+
+        with warnings.catch_warnings(record=True) as warning_list:
+            warnings.simplefilter("always")
+            list(EmailLoginForm(request=None).get_users("SpiderMan@Avengers.com"))
+
+        assert not warning_list
+        assert captured == {"email": "SpiderMan@Avengers.com"}
+
+    def test_get_users__postgres_without_citext(self, monkeypatch):
+        class DummyCursor:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args, **kwargs):
+                return False
+
+            def execute(self, *args, **kwargs):
+                return None
+
+            def fetchone(self):
+                return None
+
+        class DummyConnection:
+            vendor = "postgresql"
+
+            def cursor(self):
+                return DummyCursor()
+
+        class DummyQuerySet:
+            def iterator(self):
+                return iter(())
+
+        captured = {}
+
+        def fake_filter(**kwargs):
+            captured.update(kwargs)
+            return DummyQuerySet()
+
+        monkeypatch.setattr("mailauth.forms.connection", DummyConnection())
+        monkeypatch.setattr(get_user_model()._default_manager, "filter", fake_filter)
+
+        with pytest.warns(RuntimeWarning, match="CITEXT extension not detected"):
+            list(EmailLoginForm(request=None).get_users("SpiderMan@Avengers.com"))
+
+        assert captured == {"email__iexact": "SpiderMan@Avengers.com"}
