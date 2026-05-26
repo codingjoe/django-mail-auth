@@ -18,7 +18,7 @@ from mailauth.backends import MailAuthBackend
 
 
 @functools.cache
-def _has_citext_extension(_alias):
+def _has_citext_extension(alias):
     with connection.cursor() as cursor:
         cursor.execute(
             "SELECT 1 FROM pg_extension WHERE extname = %s LIMIT 1;",
