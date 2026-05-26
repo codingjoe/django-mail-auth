@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import functools
 import typing
 import urllib
 import warnings
@@ -14,6 +15,16 @@ from django.template import TemplateDoesNotExist, loader
 from django.urls import reverse
 
 from mailauth.backends import MailAuthBackend
+
+
+@functools.cache
+def _has_citext_extension(_alias):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT 1 FROM pg_extension WHERE extname = %s LIMIT 1;",
+            ["citext"],
+        )
+        return cursor.fetchone() is not None
 
 
 class BaseLoginForm(forms.Form):
@@ -134,12 +145,7 @@ class EmailLoginForm(BaseLoginForm):
         return get_user_model()._default_manager.filter(**query).iterator()
 
     def _postgres_has_citext_extension(self):
-        with connection.cursor() as cursor:
-            cursor.execute(
-                "SELECT 1 FROM pg_extension WHERE extname = %s LIMIT 1;",
-                ["citext"],
-            )
-            return cursor.fetchone() is not None
+        return _has_citext_extension(connection.alias)
 
     def save(self):
         """

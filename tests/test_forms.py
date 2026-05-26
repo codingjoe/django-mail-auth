@@ -58,6 +58,7 @@ class TestEmailLoginForm:
 
         class DummyConnection:
             vendor = "postgresql"
+            alias = "with_citext"
 
             def cursor(self):
                 return DummyCursor()
@@ -98,6 +99,7 @@ class TestEmailLoginForm:
 
         class DummyConnection:
             vendor = "postgresql"
+            alias = "without_citext"
 
             def cursor(self):
                 return DummyCursor()
