@@ -47,7 +47,6 @@ Use the `[wagtail]` extra to make sure you get a supported version of wagtail, i
 
 If you want to use the PostgreSQL CIText extension for optimized case-insensitive search, use the `[postgres]` extra to install the necessary [django-citext](https://pypi.org/project/django-citext/). You also need to make sure postgresql itself supports the [CIText extension](https://www.postgresql.org/docs/current/citext.html), for instance by installing a package like `postgresql-contrib` or compiling it with the extension included.
 
-
 ## Setup
 
 First add `mailauth` to you installed apps:
