@@ -43,9 +43,9 @@ Run this command to install `django-mail-auth`:
 python3 -m pip install django-mail-auth[postgres,wagtail]
 ```
 
-Use the `[wagtail]` to make sure you get a supported version of wagtail, if you use that.
+Use the `[wagtail]` extra to make sure you get a supported version of wagtail, if you use that.
 
-If you want to use the PostgreSQL CIText extension for optimized case-insensitive search, use the `[postgres]` extra to install the necessary [django-citext](https://pypi.org/project/django-citext/). You also need to make sure postgresql supports the [CIText extension](https://www.postgresql.org/docs/current/citext.html), for instance by installing a package like `postgresql-contrib` or compiling it with the extension included.
+If you want to use the PostgreSQL CIText extension for optimized case-insensitive search, use the `[postgres]` extra to install the necessary [django-citext](https://pypi.org/project/django-citext/). You also need to make sure postgresql itself supports the [CIText extension](https://www.postgresql.org/docs/current/citext.html), for instance by installing a package like `postgresql-contrib` or compiling it with the extension included.
 
 
 ## Setup
