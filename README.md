@@ -35,6 +35,10 @@ This project was inspired by:
 - [django-nopassword](https://github.com/relekang/django-nopassword) by
   [Rolf Erik Lekang](http://rolflekang.com)
 
+## Sponsors
+
+[![Sponsors](https://django.the-box.sh/sponsors/codingjoe/django-mail-auth.svg)](https://github.com/sponsors/codingjoe)
+
 ## Installation
 
 Run this command to install `django-mail-auth`:
