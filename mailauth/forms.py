@@ -14,6 +14,11 @@ from django.urls import reverse
 
 from mailauth.backends import MailAuthBackend
 
+try:
+    import citext
+except ImportError:
+    citext = None
+
 
 class BaseLoginForm(forms.Form):
     next = forms.CharField(widget=forms.HiddenInput, required=False)
@@ -113,7 +118,8 @@ class EmailLoginForm(BaseLoginForm):
         self.fields[self.field_name] = field
 
     def get_users(self, email=None):
-        if connection.vendor == "postgresql":
+        if connection.vendor == "postgresql" and citext:
+            # We use django-citext's case-insenstive postgresql optimisation.
             query = {self.field_name: email}
         else:
             query = {f"{self.field_name}__iexact": email}
