@@ -24,6 +24,9 @@ jobs:
       - uses: astral-sh/setup-uv@v7
       - run: uv run mkdocs build --strict
   SQLite:
+    permissions:
+      contents: read
+      id-token: write
     needs: [dist, docs]
     runs-on: ubuntu-latest
     strategy:
@@ -42,9 +45,12 @@ jobs:
       - run: uv run --with django~=${{ matrix.django-version }}.0 pytest
       - uses: codecov/codecov-action@v7
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           flags: python-${{ matrix.python-version }}
   wagtail:
+    permissions:
+      contents: read
+      id-token: write
     needs: [dist, docs]
     runs-on: ubuntu-latest
     strategy:
@@ -61,9 +67,12 @@ jobs:
       - run: uv run --extra wagtail --with wagtail~=${{ matrix.wagtail-version }}.0 --with django~=5.2.0 pytest
       - uses: codecov/codecov-action@v7
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           flags: ${{ matrix.extras }}
   PostgreSQL:
+    permissions:
+      contents: read
+      id-token: write
     needs: [dist, docs]
     runs-on: ubuntu-latest
     services:
@@ -91,5 +100,5 @@ jobs:
           DB: pg
       - uses: codecov/codecov-action@v7
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           flags: ${{ matrix.extras }}
