@@ -46,7 +46,7 @@ dependencies = [
 
 [project.optional-dependencies]
 wagtail = [
-  "wagtail>=7.3.1",
+  "wagtail>=6.3",
 ]
 postgres = [
   "django-citext",
