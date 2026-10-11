@@ -1,32 +1,22 @@
 [build-system]
-requires = ["flit-gettext[scm]", "wheel"]
 build-backend = "flit_gettext.scm"
+requires = [ "flit-gettext[scm]", "wheel" ]
 
 [project]
 name = "django-mail-auth"
-authors = [
-  { name = "Johannes Maron", email = "johannes@maron.family" },
-]
 readme = "README.md"
-license = { file = "LICENSE" }
 keywords = [
-  "django",
-  "otp",
-  "email",
   "authentication",
+  "django",
+  "email",
+  "otp",
   "passwordless",
 ]
-dynamic = ["version", "description"]
+license = { file = "LICENSE" }
+requires-python = ">=3.14"
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Console",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.14",
-  "Programming Language :: Python :: 3.15",
-  "Programming Language :: Python :: 3 :: Only",
   "Framework :: Django",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
@@ -34,24 +24,39 @@ classifiers = [
   "Framework :: Wagtail",
   "Framework :: Wagtail :: 6",
   "Framework :: Wagtail :: 7",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
   "Topic :: Internet",
   "Topic :: Internet :: WWW/HTTP",
   "Topic :: Software Development :: Quality Assurance",
   "Topic :: Software Development :: Testing",
 ]
-requires-python = ">=3.14"
-dependencies = [
-  "django>=5.2.13"
-]
-
+dynamic = [ "description", "version" ]
+dependencies = [ "django>=5.2.13" ]
+[[project.authors]]
+name = "Johannes Maron"
+email = "johannes@maron.family"
 [project.optional-dependencies]
-wagtail = [
-  "wagtail>=7.3.1",
-]
 postgres = [
   "django-citext",
   "psycopg",
 ]
+wagtail = [
+  "wagtail>=7.3.1",
+]
+[project.urls]
+Changelog = "https://github.com/codingjoe/django-mail-auth/releases"
+Documentation = "https://django-mail-auth.rtfd.io/"
+Funding = "https://github.com/sponsors/codingjoe"
+# https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels
+Homepage = "https://github.com/codingjoe/django-mail-auth"
+Issues = "https://github.com/codingjoe/django-mail-auth/issues"
+Releasenotes = "https://github.com/codingjoe/django-mail-auth/releases/latest"
+Source = "https://github.com/codingjoe/django-mail-auth"
 
 [dependency-groups]
 dev = [
@@ -64,86 +69,67 @@ test = [
   "pytest-django",
 ]
 docs = [
-  "mkdocs",
-  "mkdocstrings[python]>=1.0.3",
-  "mkdocs-material",
   "markdown-callouts",
-  "Pygments",
+  "mkdocs",
+  "mkdocs-material",
+  "mkdocstrings[python]>=1.0.3",
+  "pygments",
 ]
-
-[project.urls]
-# https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels
-Homepage = "https://github.com/codingjoe/django-mail-auth"
-Changelog = "https://github.com/codingjoe/django-mail-auth/releases"
-Source = "https://github.com/codingjoe/django-mail-auth"
-Releasenotes = "https://github.com/codingjoe/django-mail-auth/releases/latest"
-Documentation = "https://django-mail-auth.rtfd.io/"
-Issues = "https://github.com/codingjoe/django-mail-auth/issues"
-Funding = "https://github.com/sponsors/codingjoe"
-
-[tool.flit.module]
-name = "mailauth"
 
 [tool.setuptools_scm]
 write_to = "mailauth/_version.py"
 
-[tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "--cov --cov-report=xml --cov-report=term --tb=short -rxs"
-testpaths = ["tests"]
-DJANGO_SETTINGS_MODULE = "tests.testapp.settings"
-
-[tool.coverage.run]
-source = ["mailauth"]
-
-[tool.coverage.report]
-show_missing = true
-skip_covered = true
+[tool.flit]
+[tool.flit.module]
+name = "mailauth"
 
 [tool.ruff]
-src = ["mailauth", "tests"]
 line-length = 88
 indent-width = 4
-
+src = [ "mailauth", "tests" ]
 [tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-skip-magic-trailing-comma = false
-line-ending = "auto"
 preview = true
-
+indent-style = "space"
+quote-style = "double"
+line-ending = "auto"
+skip-magic-trailing-comma = false
 [tool.ruff.lint]
 select = [
-    "D", # pydocstyle
-    "E", # pycodestyle errors
-    "EXE", # flake8-executable
-    "F", # pyflakes
-    "I", # isort
-    "PGH", # pygrep-hooks
-    "PT", # flake8-pytest-style
-    "RET", # flake8-return
-    "S", # flake8-bandit
-    "SIM", # flake8-simplify
-    "UP", # pyupgrade
-    "W", # pycodestyle warnings
+  "D",   # pydocstyle
+  "E",   # pycodestyle errors
+  "EXE", # flake8-executable
+  "F",   # pyflakes
+  "I",   # isort
+  "PGH", # pygrep-hooks
+  "PT",  # flake8-pytest-style
+  "RET", # flake8-return
+  "S",   # flake8-bandit
+  "SIM", # flake8-simplify
+  "UP",  # pyupgrade
+  "W",   # pycodestyle warnings
 ]
+ignore = [ "D1" ]
+per-file-ignores."*/migrations/*.py" = [ "E501" ]
+per-file-ignores."*/test*.py" = [ "PLR2004", "S101" ]
+flake8-pytest-style.fixture-parentheses = false
+flake8-pytest-style.mark-parentheses = false
+isort.combine-as-imports = true
+isort.force-wrap-aliases = true
+isort.known-first-party = [ "mailauth", "tests" ]
+isort.section-order = [ "future", "standard-library", "third-party", "first-party", "local-folder" ]
+isort.split-on-trailing-comma = true
+pydocstyle.convention = "pep257"
 
-ignore = ["D1"]
+[tool.pytest]
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [ "tests" ]
+addopts = "--cov --cov-report=xml --cov-report=term --tb=short -rxs"
+DJANGO_SETTINGS_MODULE = "tests.testapp.settings"
 
-[tool.ruff.lint.per-file-ignores]
-"*/test*.py" = ["S101", "PLR2004"]
-"*/migrations/*.py" = ["E501"]
-
-[tool.ruff.lint.flake8-pytest-style]
-fixture-parentheses = false
-mark-parentheses = false
-
-[tool.ruff.lint.isort]
-combine-as-imports = true
-split-on-trailing-comma = true
-section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
-force-wrap-aliases = true
-known-first-party = ["mailauth", "tests"]
-
-[tool.ruff.lint.pydocstyle]
-convention = "pep257"
+[tool.coverage]
+[tool.coverage.run]
+source = [ "mailauth" ]
+[tool.coverage.report]
+skip_covered = true
+show_missing = true
