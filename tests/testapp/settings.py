@@ -11,17 +11,18 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "supersecret"  # noqa: S105
+SECRET_KEY = "supersecret"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -99,7 +100,7 @@ if DB == "sqlite":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+            "NAME": str(BASE_DIR / "db.sqlite3"),
         }
     }
 elif DB == "pg":
@@ -107,7 +108,7 @@ elif DB == "pg":
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "HOST": "127.0.0.1",
-            "PORT": int(os.getenv("DB_PORT", 3306)),
+            "PORT": int(os.getenv("DB_PORT", "3306")),
             "NAME": "default_django",
             "USER": "django",
             "PASSWORD": "django",

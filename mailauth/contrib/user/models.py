@@ -32,9 +32,11 @@ class EmailUserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
 
         if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must have is_staff=True.")
+            msg = "Superuser must have is_staff=True."
+            raise ValueError(msg)
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
+            msg = "Superuser must have is_superuser=True."
+            raise ValueError(msg)
 
         return self._create_user(email, **extra_fields)
 
@@ -78,7 +80,8 @@ class AbstractEmailUser(AbstractUser):
         """Return an HMAC of the :attr:`.session_salt` field."""
         key_salt = "mailauth.contrib.user.models.EmailUserManager.get_session_auth_hash"
         if not self.session_salt:
-            raise ValueError("'session_salt' must be set")
+            msg = "'session_salt' must be set"
+            raise ValueError(msg)
         return salted_hmac(key_salt, self.session_salt, algorithm="sha256").hexdigest()
 
     def anonymize(self, commit=True):

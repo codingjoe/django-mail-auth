@@ -28,7 +28,7 @@ class TestLoginView:
 
         request._messages = msgs
         view.request = request
-        form = EmailLoginForm(view.request, data=dict(email="spiderman@avengers.com"))
+        form = EmailLoginForm(view.request, data={"email": "spiderman@avengers.com"})
         assert form.is_valid()
         response = view.form_valid(form)
         assert response.status_code == 302

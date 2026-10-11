@@ -20,8 +20,10 @@ def _operations():
     else:
         yield migrations.RunSQL(
             sql=(
-                "CREATE UNIQUE INDEX mailauth_user_emailuser_email_upper_idx"
-                ' ON mailauth_user_emailuser (UPPER("email"));',
+                (
+                    "CREATE UNIQUE INDEX mailauth_user_emailuser_email_upper_idx"
+                    ' ON mailauth_user_emailuser (UPPER("email"));'
+                ),
             ),
             reverse_sql=("DROP INDEX mailauth_user_emailuser_email_upper_idx;",),
         )
