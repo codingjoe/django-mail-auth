@@ -3,19 +3,21 @@
 
 import os
 import sys
+from pathlib import Path
 
 
 def main():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.testapp.settings")
-    sys.path.insert(0, os.path.abspath("."))
+    sys.path.insert(0, str(Path.cwd()))
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
-        raise ImportError(
+        msg = (
             "Couldn't import Django. Are you sure it's installed and "
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
-        ) from exc
+        )
+        raise ImportError(msg) from exc
     execute_from_command_line(sys.argv)
 
 
