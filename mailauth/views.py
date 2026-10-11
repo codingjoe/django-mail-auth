@@ -11,8 +11,8 @@ from django.views.decorators.cache import never_cache
 from mailauth import forms
 
 __all__ = (
-    "LoginView",
     "LoginTokenView",
+    "LoginView",
 )
 
 
