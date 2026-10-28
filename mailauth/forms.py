@@ -132,7 +132,7 @@ class EmailLoginForm(BaseLoginForm):
         email = self.cleaned_data[self.field_name]
         for user in self.get_users(email):
             context = self.get_mail_context(self.request, user)
-            self.send_mail(email, context)
+            self.send_mail(getattr(user, self.field_name), context)
 
     def send_mail(self, to_email, context):
         """Send a django.core.mail.EmailMultiAlternatives to `to_email`."""
