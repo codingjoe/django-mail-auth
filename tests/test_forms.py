@@ -38,3 +38,14 @@ class TestEmailLoginForm:
         assert list(EmailLoginForm(request=None).get_users("spiderman@avengers.com"))
         assert list(EmailLoginForm(request=None).get_users("SpiderMan@Avengers.com"))
         assert not list(EmailLoginForm(request=None).get_users("SpiderMan@dc.com"))
+
+    def test_save__sends_to_stored_email(self, db, rf, user, mailoutbox):
+        form = EmailLoginForm(
+            request=rf.get("/"), data={"email": "SpiderMan@Avengers.com"}
+        )
+        assert form.is_valid()
+
+        form.save()
+
+        assert len(mailoutbox) == 1
+        assert mailoutbox[0].to == ["spiderman@avengers.com"]
