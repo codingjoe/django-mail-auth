@@ -89,11 +89,7 @@ class UserSigner(signing.TimestampSigner):
         except get_user_model().DoesNotExist as e:
             raise UserDoesNotExist(f"User with pk={user_pk} does not exist") from e
         else:
-            if (
-                single_use
-                and last_login != ""
-                and self.to_timestamp(user.last_login) != last_login
-            ):
+            if single_use and self.to_timestamp(user.last_login) != last_login:
                 raise signing.SignatureExpired(
                     f"The access token for {user!r} seems used"
                 )

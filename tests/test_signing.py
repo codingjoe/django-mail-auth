@@ -55,6 +55,24 @@ class TestUserSigner:
         ):
             signer.unsign(signature, single_use=True)
 
+    def test_unsing__single_use__no_last_login(self, db, signer):
+        user = get_user_model().objects.create_user(
+            pk=1338,
+            email="batman@avengers.com",
+        )
+        signature = signer.sign(user)
+        assert user == signer.unsign(signature)
+
+        # Simulate a login, which updates the last_login timestamp.
+        user.last_login = timezone.now()
+        user.save(update_fields=["last_login"])
+
+        with pytest.raises(
+            SignatureExpired,
+            match="The access token for <EmailUser: batman@avengers.com> seems used",
+        ):
+            signer.unsign(signature)
+
     def test_to_timestamp(self):
         value = timezone.datetime(2002, 5, 3, tzinfo=zoneinfo.ZoneInfo("UTC"))
         base62_value = signing.UserSigner.to_timestamp(value=value)

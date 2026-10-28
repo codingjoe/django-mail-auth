@@ -1,5 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 
+from mailauth.backends import MailAuthBackend
 from mailauth.views import LoginView
 
 
@@ -18,6 +20,15 @@ class TestLoginTokenView:
         response = client.get(url)
         assert response.status_code == 302
         assert response.url == "/accounts/profile/"
+
+    def test_get__single_use__no_last_login(self, client, db, settings):
+        settings.LOGIN_URL_TIMEOUT = float("inf")
+        user = get_user_model().objects.create_user(email="new@avengers.com")
+        token = MailAuthBackend.get_token(user)
+        url = reverse("mailauth:login-token", kwargs={"token": token})
+
+        assert client.get(url).status_code == 302
+        assert client.get(url).status_code == 403
 
     def test_get__next(self, client, user, signature, settings):
         settings.LOGIN_URL_TIMEOUT = float("inf")
